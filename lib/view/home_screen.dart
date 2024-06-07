@@ -1,4 +1,5 @@
 import 'package:blog_project/models/blog_post.dart'; // Import BlogPost
+import 'package:blog_project/models/blog_repository.dart';
 import 'package:blog_project/view/editor.dart';
 import 'package:flutter/material.dart';
 
@@ -11,17 +12,26 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  var blogs = [
-    BlogPost("First Title", "First Message", "2024.05.27"),
-    BlogPost("Second Title", "Second Message", "2024.05.27"),
-    BlogPost("Third Title", "Third Message", "2024.05.27"),
-  ];
+  final BlogRepository _blogRepository = InMemoryBlogRepository();
+  // var blogs = [
+  //   BlogPost("First Title", "First Message", "2024.05.27"),
+  //   BlogPost("Second Title", "Second Message", "2024.05.27"),
+  //   BlogPost("Third Title", "Third Message", "2024.05.27"),
+  // ];
 
-  void _addBlog() {
-    Navigator.push(
+  void _addBlog() async {
+    // ... navigate to EditorView and get result
+    final result = await Navigator.push(
       context,
       MaterialPageRoute(builder: (context) => const EditorView()),
     );
+
+    if (result is BlogPost) {
+      await _blogRepository.addBlog(result); // Add post using repository
+      setState(() {
+        // No need to update blogs list as _blogRepository manages it
+      });
+    }
   }
 
   @override
@@ -31,10 +41,21 @@ class _HomePageState extends State<HomePage> {
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         title: Text(widget.title),
       ),
-      body: ListView.builder(
-        itemCount: blogs.length,
-        itemBuilder: (context, index) {
-          return BlogCard(blog: blogs[index]);
+      body: FutureBuilder<List<BlogPost>>(
+        future: _blogRepository.getBlogs(), // Fetch blogs from repository
+        builder: (context, snapshot) {
+          if (snapshot.hasData) {
+            final blogs = snapshot.data!;
+            return ListView.builder(
+              itemCount: blogs.length,
+              itemBuilder: (context, index) {
+                return BlogCard(blog: blogs[index]);
+              },
+            );
+          } else if (snapshot.hasError) {
+            return Center(child: Text('Error: ${snapshot.error}'));
+          }
+          return const Center(child: CircularProgressIndicator());
         },
       ),
       floatingActionButton: FloatingActionButton(
