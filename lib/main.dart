@@ -1,3 +1,4 @@
+import 'package:blog_project/models/blog_post.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -30,14 +31,14 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   var blogs = [
-    BlogEntry("First Title", "First Message", "2024.05.27"),
-    BlogEntry("Second Title", "Second Message", "2024.05.27"),
-    BlogEntry("Third Title", "Third Message", "2024.05.27")
+    BlogPost("First Title", "First Message", "2024.05.27"),
+    BlogPost("Second Title", "Second Message", "2024.05.27"),
+    BlogPost("Third Title", "Third Message", "2024.05.27")
   ];
 
   void _addBlog() {
     setState(() {
-      blogs.add(BlogEntry("titel", "text", "date"));
+      blogs.add(BlogPost("titel", "text", "date"));
     });
   }
 
@@ -68,7 +69,7 @@ class BlogCard extends StatelessWidget {
     super.key,
     required this.blog,
   });
-  final BlogEntry blog;
+  final BlogPost blog;
 
   @override
   Widget build(BuildContext context) {
@@ -101,11 +102,4 @@ class BlogCard extends StatelessWidget {
       ),
     );
   }
-}
-
-class BlogEntry {
-  String title;
-  String text;
-  String date;
-  BlogEntry(this.title, this.text, this.date);
 }
