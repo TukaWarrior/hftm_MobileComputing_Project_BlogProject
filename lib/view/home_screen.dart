@@ -1,4 +1,5 @@
 import 'package:blog_project/models/blog_post.dart'; // Import BlogPost
+import 'package:blog_project/view/editor.dart';
 import 'package:flutter/material.dart';
 
 class HomePage extends StatefulWidget {
@@ -17,9 +18,10 @@ class _HomePageState extends State<HomePage> {
   ];
 
   void _addBlog() {
-    setState(() {
-      blogs.add(BlogPost("titel", "text", "date"));
-    });
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => const EditorView()),
+    );
   }
 
   @override
