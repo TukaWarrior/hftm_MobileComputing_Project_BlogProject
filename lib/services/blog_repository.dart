@@ -13,23 +13,20 @@ class BlogRepository {
 
   void _initializeBlogs() async {
     addBlogPost(Blog(
-      title: "Flutter ist toll!",
-      content:
-          "Mit Flutter hebst du deine App-Entwicklung auf ein neues Level. Probier es aus!",
+      title: "Blog Title 1",
+      content: "Blog Title 1",
       publishedAt: DateTime.now(),
     ));
 
     addBlogPost(Blog(
-      title: "Der Kurs ist dabei abzuheben",
-      content:
-          "Fasten your seatbelts, we are ready for takeoff! Jetzt geht's ans Eingemachte. Bleib dabei!",
+      title: "Blog Title 2",
+      content: "Blog Title 2",
       publishedAt: DateTime.now().subtract(const Duration(days: 1)),
     ));
 
     addBlogPost(Blog(
-      title: "Klasse erzeugt eine super App",
-      content:
-          "Während dem aktiven Plenum hat die Klasse alles rausgeholt und eine tolle App gebaut. Alle waren begeistert dabei und haben viel gelernt.",
+      title: "Blog Title 3",
+      content: "Blog Title 3",
       publishedAt: DateTime.now().subtract(const Duration(days: 2)),
     ));
 
@@ -64,10 +61,7 @@ class BlogRepository {
   }
 
   /// Updates a blog post with the given id.
-  Future<void> updateBlogPost(
-      {required int blogId,
-      required String title,
-      required String content}) async {
+  Future<void> updateBlogPost({required int blogId, required String title, required String content}) async {
     final blog = _blogs.firstWhere((blog) => blog.id == blogId);
     blog.title = title;
     blog.content = content;
