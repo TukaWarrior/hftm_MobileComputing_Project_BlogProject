@@ -1,3 +1,4 @@
+/// This file sets the theme across the application.
 import 'package:flutter/material.dart';
 
 final ThemeData theme = ThemeData(

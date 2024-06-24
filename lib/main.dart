@@ -1,6 +1,6 @@
+import 'package:blog_project/utils/providers.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:blog_project/providers/blog_provider.dart';
 import 'package:blog_project/screens/main_screen.dart';
 import 'package:blog_project/settings/theme.dart';
 
@@ -15,8 +15,8 @@ class MainApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-      create: (_) => BlogProvider(),
+    return MultiProvider(
+      providers: [createBlogProvider()],
       child: MaterialApp(
         navigatorKey: mainNavigatorKey,
         title: "Interaction and State",
@@ -26,9 +26,6 @@ class MainApp extends StatelessWidget {
     );
   }
 }
-
-
-
 
 
 // import 'package:flutter/material.dart';
