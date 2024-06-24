@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:blog_project/providers/blog_provider.dart';
 import 'package:blog_project/screens/main_screen.dart';
+import 'package:blog_project/settings/theme.dart';
 
 void main() {
   runApp(const MainApp());
@@ -14,27 +15,12 @@ class MainApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var colorScheme = ColorScheme.fromSeed(
-      seedColor: Colors.cyanAccent,
-    );
     return ChangeNotifierProvider(
       create: (_) => BlogProvider(),
       child: MaterialApp(
         navigatorKey: mainNavigatorKey,
         title: "Interaction and State",
-        theme: ThemeData(
-          useMaterial3: true,
-          colorScheme: colorScheme,
-          scaffoldBackgroundColor: colorScheme.surfaceContainerHighest,
-          appBarTheme: AppBarTheme(
-            backgroundColor: colorScheme.surfaceContainerHighest,
-          ),
-          textTheme: const TextTheme(
-            titleLarge: TextStyle(
-              fontSize: 30,
-            ),
-          ),
-        ),
+        theme: theme,
         home: const MainScreen(),
       ),
     );

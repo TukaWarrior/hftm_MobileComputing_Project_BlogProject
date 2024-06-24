@@ -15,7 +15,7 @@ class MainMenuItem {
 }
 
 List<MainMenuItem> _getMenuItems() => [
-      MainMenuItem(icon: Icons.home, text: "Home", page: const HomePage()),
+      MainMenuItem(icon: Icons.article, text: "Blogs", page: const HomePage()),
       MainMenuItem(icon: Icons.add, text: "New Blog", page: const BlogNewPage()),
     ];
 
