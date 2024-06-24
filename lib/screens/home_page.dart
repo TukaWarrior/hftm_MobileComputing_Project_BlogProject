@@ -94,9 +94,7 @@ class BlogWidget extends StatelessWidget {
                             )),
                     IconButton(
                       icon: Icon(
-                        blog.isLikedByMe
-                            ? Icons.favorite
-                            : Icons.favorite_border,
+                        blog.isLikedByMe ? Icons.favorite : Icons.favorite_border,
                       ),
                       onPressed: () async {
                         var blogProvider = context.read<BlogProvider>();

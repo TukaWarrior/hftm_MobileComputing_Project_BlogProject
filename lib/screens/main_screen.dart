@@ -1,4 +1,5 @@
 import 'package:blog_project/main.dart';
+import 'package:blog_project/screens/settings_page.dart';
 import 'package:flutter/material.dart';
 import 'package:blog_project/screens/blog/blog_new_page.dart';
 import 'package:blog_project/screens/home_page.dart';
@@ -15,8 +16,9 @@ class MainMenuItem {
 }
 
 List<MainMenuItem> _getMenuItems() => [
-      MainMenuItem(icon: Icons.article, text: "Blogs", page: const HomePage()),
-      MainMenuItem(icon: Icons.add, text: "New Blog", page: const BlogNewPage()),
+      MainMenuItem(icon: Icons.article_rounded, text: "Blogs", page: const HomePage()),
+      MainMenuItem(icon: Icons.add_rounded, text: "New Blog", page: const BlogNewPage()),
+      MainMenuItem(icon: Icons.settings_rounded, text: "Settings", page: const SettingsPage()),
     ];
 
 class MainScreen extends StatefulWidget {
