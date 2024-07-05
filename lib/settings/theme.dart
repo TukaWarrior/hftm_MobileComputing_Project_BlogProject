@@ -1,4 +1,5 @@
 /// This file sets the theme across the application.
+library;
 import 'package:flutter/material.dart';
 
 final ThemeData lightTheme = ThemeData(

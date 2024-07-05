@@ -1,8 +1,8 @@
 import 'package:blog_project/main.dart';
-import 'package:blog_project/screens/settings_page.dart';
+import 'package:blog_project/ui/screens/settings_page.dart';
 import 'package:flutter/material.dart';
-import 'package:blog_project/screens/blog/blog_new_page.dart';
-import 'package:blog_project/screens/home_page.dart';
+import 'package:blog_project/ui/screens/blog/blog_new_page.dart';
+import 'package:blog_project/ui/screens/home_page.dart';
 
 class MainMenuItem {
   static final List<MainMenuItem> items = _getMenuItems();
