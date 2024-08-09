@@ -1,7 +1,15 @@
+<<<<<<< Updated upstream
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:blog_project/providers/blog_provider.dart';
 import 'package:blog_project/screens/main_screen.dart';
+=======
+import 'package:blog_project/providers/theme_provider.dart';
+import 'package:blog_project/ui/screens/main_screen.dart';
+import 'package:blog_project/utils/providers.dart';
+import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+>>>>>>> Stashed changes
 import 'package:blog_project/settings/theme.dart';
 
 void main() {
