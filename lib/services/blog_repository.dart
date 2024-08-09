@@ -1,6 +1,4 @@
 import 'dart:async';
-import 'dart:convert';
-import 'package:http/http.dart' as http;
 
 import 'package:blog_project/models/blog.dart';
 
@@ -11,74 +9,58 @@ class BlogRepository {
 
   final _blogs = <Blog>[];
   int _nextId = 1;
-  // bool _isInitialized = false;
+  bool _isInitialized = false;
 
   void _initializeBlogs() async {
-    // addBlogPost(Blog(
-    //   title: "Blog Title 1",
-    //   content: "Blog Title 1",
-    //   publishedAt: DateTime.now(),
-    // ));
+    addBlogPost(Blog(
+      title: "Blog Title 1",
+      content: "Blog Title 1",
+      publishedAt: DateTime.now(),
+    ));
 
-    // addBlogPost(Blog(
-    //   title: "Blog Title 2",
-    //   content: "Blog Title 2",
-    //   publishedAt: DateTime.now().subtract(const Duration(days: 1)),
-    // ));
+    addBlogPost(Blog(
+      title: "Blog Title 2",
+      content: "Blog Title 2",
+      publishedAt: DateTime.now().subtract(const Duration(days: 1)),
+    ));
 
-    // addBlogPost(Blog(
-    //   title: "Blog Title 3",
-    //   content: "Blog Title 3",
-    //   publishedAt: DateTime.now().subtract(const Duration(days: 2)),
-    // ));
+    addBlogPost(Blog(
+      title: "Blog Title 3",
+      content: "Blog Title 3",
+      publishedAt: DateTime.now().subtract(const Duration(days: 2)),
+    ));
 
-    // _isInitialized = true;
+    _isInitialized = true;
   }
 
   /// Returns all blog posts ordered by publishedAt descending.
   /// Simulates network delay.
   Future<List<Blog>> getBlogPosts() async {
-    // if (!_isInitialized) {
-    // _initializeBlogs();
-    // }
-    // await Future.delayed(const Duration(milliseconds: 500));
-    // return _blogs..sort((a, b) => b.publishedAt.compareTo(a.publishedAt));
-
-    try {
-      final response = await http.get(Uri.parse("http://localhost:8080/blogs")).timeout(Duration(seconds: 5));
-      print("$response");
-      if (response.statusCode == 200) {
-        final List<dynamic> data = jsonDecode(response.body);
-        print(response);
-        print("Hello Data");
-        // return data.map((e) => BlogRepository._privateConstructor.fromJson(e)).toList();
-      } else {
-        throw Exception("Failed to load Blogs");
-      }
-    } catch (e) {
-      // logger.warning(e.toString());
+    if (!_isInitialized) {
+      _initializeBlogs();
     }
-    return [];
+    await Future.delayed(const Duration(milliseconds: 500));
+    return _blogs..sort((a, b) => b.publishedAt.compareTo(a.publishedAt));
   }
 
-  // Creates a new blog post and sets a new id.
+  /// Creates a new blog post and sets a new id.
   Future<void> addBlogPost(Blog blog) async {
     blog.id = _nextId++;
     _blogs.add(blog);
   }
 
-  // Deletes a blog post.
+  /// Deletes a blog post.
   Future<void> deleteBlogPost(Blog blog) async {
     _blogs.remove(blog);
   }
 
-  // Changes the like info of a blog post.
+  /// Changes the like info of a blog post.
   Future<void> toggleLikeInfo(int blogId) async {
     final blog = _blogs.firstWhere((blog) => blog.id == blogId);
     blog.isLikedByMe = !blog.isLikedByMe;
   }
 
-  // Updates a blog post with the given id.
+  /// Updates a blog post with the given id.
   Future<void> updateBlogPost({required int blogId, required String title, required String content}) async {
     final blog = _blogs.firstWhere((blog) => blog.id == blogId);
     blog.title = title;
