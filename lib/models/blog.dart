@@ -31,7 +31,7 @@ class Blog {
       'id': id,
       'title': title,
       'content': content,
-      'publishedAt': publishedAt.toIso8601String(),
+      // 'publishedAt': publishedAt.toIso8601String(),
       // 'isLikedByMe': isLikedByMe,
     };
   }
