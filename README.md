@@ -6,6 +6,10 @@ You can find the corresponding java backend here:
 - [hftm_VerteilteSysteme_Project_BlogProject
 ](https://github.com/TukaWarrior/hftm_VerteilteSysteme_Project_BlogProject)
 
+
+## Project Structure
+**/lib/models** Contains the model classes like blogposts
+**/lib/providers** The provider classes are used to retrieve data from the backend.
 ## Getting Started
 
 
