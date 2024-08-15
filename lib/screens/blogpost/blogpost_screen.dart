@@ -1,7 +1,7 @@
 import 'package:blog_project/providers/blogpost_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:blog_project/services/blogpost_api.dart';
+import 'package:blog_project/services/blogpost_service.dart';
 import 'package:blog_project/models/blogpost.dart';
 
 class BlogPostPage extends StatelessWidget {
@@ -31,14 +31,14 @@ class BlogListWidget extends StatelessWidget {
     BlogPostProvider blogpostProvider = context.watch<BlogPostProvider>();
 
     return Stack(children: [
-      blogpostProvider.blogs.isEmpty && !blogpostProvider.isLoading
+      blogpostProvider.blogposts.isEmpty && !blogpostProvider.isLoading
           ? const Center(
               child: Text('No blogs yet.'),
             )
           : ListView.builder(
-              itemCount: blogpostProvider.blogs.length,
+              itemCount: blogpostProvider.blogposts.length,
               itemBuilder: (context, index) {
-                var blog = blogpostProvider.blogs[index];
+                var blog = blogpostProvider.blogposts[index];
                 return Padding(
                   padding: const EdgeInsets.all(4.0),
                   child: BlogWidget(blogpost: blog),
@@ -96,8 +96,8 @@ class BlogWidget extends StatelessWidget {
                         blogpost.isLikedByMe ? Icons.favorite : Icons.favorite_border,
                       ),
                       onPressed: () async {
-                        // var blogProvider = context.read<BlogProvider>();
-                        // await BlogRepository.instance.toggleLikeInfo(blogpost.id);
+                        // var blogPostProvider = context.read<BlogPostProvider>();
+                        // await BlogPostService.instance.toggleLikeInfo(blogpost.id);
                         // blogProvider.readBlogsWithLoadingState();
                       },
                     ),

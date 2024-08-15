@@ -1,6 +1,10 @@
-# blog_project
+# Blog Project - Mobile App
+This is my school project, that is part of the "Mobile Computing" course from the third year of study at the HFTM in Grenchen.
+The goal is to build up a nice and compelling looking mobile app that acts as a frontend to the Java backend project.
 
-This is a school project in the course Mobile Computing. 
+You can find the corresponding java backend here:
+- [hftm_VerteilteSysteme_Project_BlogProject
+](https://github.com/TukaWarrior/hftm_VerteilteSysteme_Project_BlogProject)
 
 ## Getting Started
 

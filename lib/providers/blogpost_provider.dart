@@ -1,18 +1,18 @@
 import 'dart:async';
 
 import 'package:blog_project/models/blogpost.dart';
-import 'package:blog_project/services/blogpost_api.dart';
+import 'package:blog_project/services/blogpost_service.dart';
 import 'package:flutter/material.dart';
 import 'package:blog_project/models/blog.dart';
 import 'package:blog_project/services/blog_repository.dart';
 
-class BlogProvider extends ChangeNotifier {
+class BlogPostProvider extends ChangeNotifier {
   bool isLoading = false;
   List<BlogPost> _blogpost = [];
-  List<BlogPost> get blogs => _blogpost;
-  final BlogService _blogService = BlogService(); // Create an instance of BlogService
+  List<BlogPost> get blogposts => _blogpost;
+  final BlogPostService _blogService = BlogPostService(); // Create an instance of BlogService
 
-  BlogProvider() {
+  BlogPostProvider() {
     _startRefreshTimer();
     readBlogsWithLoadingState();
   }

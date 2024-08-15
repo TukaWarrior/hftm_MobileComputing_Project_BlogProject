@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'package:blog_project/models/blogpost.dart';
 import 'package:http/http.dart' as http;
 
-class BlogService {
+class BlogPostService {
   final String baseUrlWindows = 'http://localhost:8080/blogs'; // When run in Windows Emulator
   final String baseUrlAndroid = 'http://10.0.2.2:8080/blogs'; // When run in Android Emulator
   final String baseUrlLocalPC = 'http://192.168.1.201:8080/blogs'; // When run on Smartphone. Local IP of host device.
