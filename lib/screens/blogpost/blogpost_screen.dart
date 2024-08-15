@@ -15,7 +15,7 @@ class BlogPostPage extends StatelessWidget {
       ),
       body: RefreshIndicator(
         onRefresh: () async {
-          context.read<BlogPostProvider>().readBlogsWithLoadingState();
+          await context.read<BlogPostProvider>().readBlogsWithLoadingState();
         },
         child: const BlogListWidget(),
       ),
@@ -28,28 +28,26 @@ class BlogListWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    BlogPostProvider blogpostProvider = context.watch<BlogPostProvider>();
+    final blogpostProvider = context.watch<BlogPostProvider>();
 
-    return Stack(children: [
-      blogpostProvider.blogposts.isEmpty && !blogpostProvider.isLoading
-          ? const Center(
-              child: Text('No blogs yet.'),
-            )
-          : ListView.builder(
-              itemCount: blogpostProvider.blogposts.length,
-              itemBuilder: (context, index) {
-                var blog = blogpostProvider.blogposts[index];
-                return Padding(
-                  padding: const EdgeInsets.all(4.0),
-                  child: BlogWidget(blogpost: blog),
-                );
-              },
-            ),
-      if (blogpostProvider.isLoading)
-        const Center(
-          child: CircularProgressIndicator(),
-        )
-    ]);
+    if (blogpostProvider.isLoading) {
+      return const Center(child: CircularProgressIndicator());
+    }
+
+    if (blogpostProvider.blogposts.isEmpty) {
+      return const Center(child: Text('No blogs yet.'));
+    }
+
+    return ListView.builder(
+      itemCount: blogpostProvider.blogposts.length,
+      itemBuilder: (context, index) {
+        final blog = blogpostProvider.blogposts[index];
+        return Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: BlogWidget(blogpost: blog),
+        );
+      },
+    );
   }
 }
 
@@ -60,51 +58,51 @@ class BlogWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MouseRegion(
-      cursor: SystemMouseCursors.click,
-      child: GestureDetector(
-        onTap: () {
-          // Navigator.of(context).push(MaterialPageRoute(
-          // builder: (context) => BlogDetailPage(blog: blogpost),
-          // ));
-        },
-        child: Card(
-          child: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  blogpost.title,
-                  style: const TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 18,
+    return GestureDetector(
+      onTap: () {
+        // Uncomment and implement if you want to navigate to a detailed blog page.
+        // Navigator.of(context).push(MaterialPageRoute(
+        // builder: (context) => BlogDetailPage(blog: blogpost),
+        // ));
+      },
+      child: Card(
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                blogpost.title,
+                style: const TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 18,
+                ),
+              ),
+              const SizedBox(height: 8.0),
+              Text(blogpost.content),
+              const SizedBox(height: 8.0),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    blogpost.publishedDateString,
+                    style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                          fontStyle: FontStyle.italic,
+                        ),
                   ),
-                ),
-                const SizedBox(height: 8.0),
-                Text(blogpost.content),
-                const SizedBox(height: 8.0),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(blogpost.publishedDateString,
-                        style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                              fontStyle: FontStyle.italic,
-                            )),
-                    IconButton(
-                      icon: Icon(
-                        blogpost.isLikedByMe ? Icons.favorite : Icons.favorite_border,
-                      ),
-                      onPressed: () async {
-                        // var blogPostProvider = context.read<BlogPostProvider>();
-                        // await BlogPostService.instance.toggleLikeInfo(blogpost.id);
-                        // blogProvider.readBlogsWithLoadingState();
-                      },
+                  IconButton(
+                    icon: Icon(
+                      blogpost.isLikedByMe ? Icons.favorite : Icons.favorite_border,
                     ),
-                  ],
-                ),
-              ],
-            ),
+                    onPressed: () {
+                      // Implement like functionality if necessary
+                      // Example:
+                      // await blogpostProvider.toggleLike(blogpost.id);
+                    },
+                  ),
+                ],
+              ),
+            ],
           ),
         ),
       ),
