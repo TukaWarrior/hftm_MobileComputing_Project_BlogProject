@@ -1,4 +1,5 @@
 import 'package:blog_project/main.dart';
+import 'package:blog_project/screens/sensors/sensor_data_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:blog_project/screens/blog/blog_new_page.dart';
 import 'package:blog_project/screens/home_page.dart';
@@ -19,6 +20,7 @@ List<MainMenuItem> _getMenuItems() => [
       MainMenuItem(icon: Icons.article, text: "Blogs", page: const HomePage()),
       MainMenuItem(icon: Icons.add, text: "New Blog", page: const BlogNewPage()),
       MainMenuItem(icon: Icons.add, text: "BlogPost", page: const BlogPostPage()),
+      MainMenuItem(icon: Icons.sensors, text: "Sensors", page: const SensorMetadataScreen()),
     ];
 
 class MainScreen extends StatefulWidget {

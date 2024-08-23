@@ -3,8 +3,6 @@ import 'dart:async';
 import 'package:blog_project/models/blogpost.dart';
 import 'package:blog_project/services/blogpost_service.dart';
 import 'package:flutter/material.dart';
-import 'package:blog_project/models/blog.dart';
-import 'package:blog_project/services/blog_repository.dart';
 
 class BlogPostProvider extends ChangeNotifier {
   bool isLoading = false;
@@ -35,7 +33,7 @@ class BlogPostProvider extends ChangeNotifier {
   }
 
   Future<void> readBlogs({bool withNotifying = true}) async {
-    _blogpost = await _blogService.fetchBlogs();
+    _blogpost = await _blogService.fetchBlogs() ?? [];
     if (withNotifying) {
       notifyListeners();
     }
