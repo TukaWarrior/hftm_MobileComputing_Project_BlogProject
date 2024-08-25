@@ -1,11 +1,20 @@
 import 'package:blog_project/providers/blogpost_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:blog_project/providers/blog_provider.dart';
 import 'package:blog_project/screens/main_screen.dart';
 import 'package:blog_project/settings/theme.dart';
 
 void main() {
+  // Set the status bar to be transparent
+  SystemChrome.setSystemUIOverlayStyle(
+    const SystemUiOverlayStyle(
+      statusBarColor: Colors.transparent, // Make the status bar transparent
+      statusBarIconBrightness: Brightness.light, // Adjust icon brightness for light background
+    ),
+  );
+
   runApp(const MainApp());
 }
 
@@ -23,7 +32,7 @@ class MainApp extends StatelessWidget {
       ],
       child: MaterialApp(
         navigatorKey: mainNavigatorKey,
-        title: "Interaction and State",
+        title: "Lucas Blog App",
         theme: theme,
         home: const MainScreen(),
       ),

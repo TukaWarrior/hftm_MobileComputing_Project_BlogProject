@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:blog_project/models/blog.dart';
@@ -75,6 +77,8 @@ class BlogWidget extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                if (blog.imagePath != null) Image.file(File(blog.imagePath!)), // Display the blog image if it exists
+                const SizedBox(height: 8.0),
                 Text(
                   blog.title,
                   style: const TextStyle(
@@ -94,9 +98,7 @@ class BlogWidget extends StatelessWidget {
                             )),
                     IconButton(
                       icon: Icon(
-                        blog.isLikedByMe
-                            ? Icons.favorite
-                            : Icons.favorite_border,
+                        blog.isLikedByMe ? Icons.favorite : Icons.favorite_border,
                       ),
                       onPressed: () async {
                         var blogProvider = context.read<BlogProvider>();

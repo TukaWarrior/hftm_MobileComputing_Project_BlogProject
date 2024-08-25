@@ -1,8 +1,11 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:blog_project/models/blog.dart';
 import 'package:blog_project/providers/blog_provider.dart';
 import 'package:blog_project/services/blog_repository.dart';
+import 'package:image_picker/image_picker.dart';
 
 class BlogNewPage extends StatefulWidget {
   const BlogNewPage({super.key});
@@ -18,6 +21,18 @@ class _BlogNewPageState extends State<BlogNewPage> {
   var pageState = _PageStates.editing;
   var title = "";
   var content = "";
+  String? imagePath; // Add this variable to store the selected image path
+
+  final ImagePicker _picker = ImagePicker(); // ImagePicker instance
+
+  Future<void> _pickImage() async {
+    final XFile? image = await _picker.pickImage(source: ImageSource.camera); // Capture image from camera
+    if (image != null) {
+      setState(() {
+        imagePath = image.path; // Set the image path
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -34,7 +49,6 @@ class _BlogNewPageState extends State<BlogNewPage> {
           case _PageStates.editing:
             return Form(
               key: formKey,
-              // autovalidateMode: AutovalidateMode.onUserInteraction,
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: ListView(
@@ -68,6 +82,16 @@ class _BlogNewPageState extends State<BlogNewPage> {
                       },
                       onSaved: (value) => content = value!,
                     ),
+                    const SizedBox(height: 20),
+                    ElevatedButton(
+                      onPressed: _pickImage, // Button to capture image
+                      child: const Text("Capture Image"),
+                    ),
+                    if (imagePath != null)
+                      Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 16.0),
+                        child: Image.file(File(imagePath!)), // Display the captured image
+                      ),
                     const SizedBox(height: 20),
                     ElevatedButton(
                       onPressed: () async {
@@ -104,6 +128,7 @@ class _BlogNewPageState extends State<BlogNewPage> {
       title: title,
       content: content,
       publishedAt: DateTime.now(),
+      imagePath: imagePath, // Save the image path
     ));
     blogProvider.readBlogs();
   }
