@@ -51,6 +51,7 @@ class _MainScreenState extends State<MainScreen> {
                   selectedIndex = index;
                 });
               },
+              indicatorColor: Colors.transparent,
               backgroundColor: Colors.grey.withOpacity(0.25),
               elevation: 0.0,
               // labelBehavior: NavigationDestinationLabelBehavior.alwaysHide,

@@ -1,4 +1,5 @@
 import 'package:blog_project/providers/blogpost_provider.dart';
+import 'package:blog_project/providers/theme_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
@@ -29,19 +30,23 @@ class MainApp extends StatelessWidget {
       providers: [
         ChangeNotifierProvider(create: (_) => BlogProvider()),
         ChangeNotifierProvider(create: (_) => BlogPostProvider()),
+        ChangeNotifierProvider(create: (_) => ThemeProvider()), // Add ThemeProvider here
       ],
-      child: MaterialApp(
-        navigatorKey: mainNavigatorKey,
-        title: "Lucas Blog App",
-        theme: theme,
-        home: const MainScreen(),
+      child: Consumer<ThemeProvider>(
+        builder: (context, themeProvider, _) {
+          return MaterialApp(
+            navigatorKey: mainNavigatorKey,
+            title: "Lucas Blog App",
+            theme: lightTheme,
+            darkTheme: darkTheme,
+            themeMode: themeProvider.themeMode, // Use the theme mode from the provider
+            home: const MainScreen(),
+          );
+        },
       ),
     );
   }
 }
-
-
-
 
 
 // import 'package:flutter/material.dart';
