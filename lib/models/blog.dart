@@ -1,16 +1,23 @@
+enum BlogCategory { Technology, Lifestyle, Education, Entertainment }
+
 class Blog {
   int id;
   String title;
   String content;
   DateTime publishedAt;
-  bool isLikedByMe = false;
+  int likes;
+  BlogCategory category;
   String? imagePath;
+
+  bool isLikedByMe = false;
 
   Blog({
     this.id = 0,
     required this.title,
     required this.content,
     required this.publishedAt,
+    required this.likes,
+    required this.category,
     this.imagePath,
   });
 
