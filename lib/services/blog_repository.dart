@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:blog_project/models/blog.dart';
+import 'package:flutter_blog/models/blog.dart';
 
 class BlogRepository {
   // Static instance + private Constructor for simple Singleton-approach

@@ -1,4 +1,4 @@
-package com.example.blog_project
+package ch.ldb.flutter_blog
 
 import android.hardware.Sensor
 import android.hardware.SensorManager
@@ -8,7 +8,7 @@ import io.flutter.embedding.engine.FlutterEngine
 import io.flutter.plugin.common.MethodChannel
 
 class MainActivity : FlutterActivity() {
-    private val CHANNEL = "com.example.sensors/metadata"
+    private val CHANNEL = "ch.ldb.sensors/metadata"
 
     override fun configureFlutterEngine(flutterEngine: FlutterEngine) {
         super.configureFlutterEngine(flutterEngine)

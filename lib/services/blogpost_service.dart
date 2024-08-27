@@ -1,5 +1,5 @@
 import 'dart:convert';
-import 'package:blog_project/models/blogpost.dart';
+import 'package:flutter_blog/models/blogpost.dart';
 import 'package:http/http.dart' as http;
 
 class BlogPostService {

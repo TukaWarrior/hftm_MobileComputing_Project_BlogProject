@@ -1,8 +1,7 @@
-import 'package:blog_project/providers/blogpost_provider.dart';
+import 'package:flutter_blog/providers/blogpost_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:blog_project/services/blogpost_service.dart';
-import 'package:blog_project/models/blogpost.dart';
+import 'package:flutter_blog/models/blogpost.dart';
 
 class BlogPostScreen extends StatelessWidget {
   const BlogPostScreen({super.key});

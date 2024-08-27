@@ -1,9 +1,7 @@
-import 'package:blog_project/screens/about/about.dart';
-import 'package:blog_project/screens/blog/blog_new.dart';
-import 'package:blog_project/screens/blog/blog_detail.dart';
-import 'package:blog_project/screens/blogpost/blogpost.dart';
-import 'package:blog_project/screens/home/home.dart';
-import 'package:blog_project/screens/sensors/sensors.dart';
+import 'package:flutter_blog/screens/about/about.dart';
+import 'package:flutter_blog/screens/blog/blog_new.dart';
+import 'package:flutter_blog/screens/home/home.dart';
+import 'package:flutter_blog/screens/sensors/sensors.dart';
 
 var appRoutes = {
   '/': (context) => const HomeScreen(),

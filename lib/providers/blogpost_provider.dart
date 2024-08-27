@@ -1,7 +1,7 @@
 import 'dart:async';
 
-import 'package:blog_project/models/blogpost.dart';
-import 'package:blog_project/services/blogpost_service.dart';
+import 'package:flutter_blog/models/blogpost.dart';
+import 'package:flutter_blog/services/blogpost_service.dart';
 import 'package:flutter/material.dart';
 
 class BlogPostProvider extends ChangeNotifier {

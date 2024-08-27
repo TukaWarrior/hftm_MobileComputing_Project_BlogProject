@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:blog_project/models/blog.dart';
-import 'package:blog_project/providers/blog_provider.dart';
+import 'package:flutter_blog/models/blog.dart';
 
 class BlogDetailPage extends StatelessWidget {
   final Blog blog;
@@ -53,14 +51,14 @@ class BlogDetailPage extends StatelessWidget {
                   ),
                   const SizedBox(height: 16.0),
                   // Creator's avatar, name, and date
-                  Divider(
+                  const Divider(
                     thickness: 1.0,
                     color: Color(0xFF6a6977),
                     height: 32.0,
                   ),
                   Row(
                     children: [
-                      CircleAvatar(
+                      const CircleAvatar(
                         radius: 32.0,
                         backgroundImage: AssetImage(
                           'assets/images/exampleavatar01.webp',
@@ -78,7 +76,7 @@ class BlogDetailPage extends StatelessWidget {
                       ),
                     ],
                   ),
-                  Divider(
+                  const Divider(
                     thickness: 1.0,
                     color: Color(0xFF6a6977),
                     height: 32.0,
@@ -89,12 +87,12 @@ class BlogDetailPage extends StatelessWidget {
                   ),
                   Container(
                     height: 64.0,
-                    margin: EdgeInsets.only(top: 16.0),
+                    margin: const EdgeInsets.only(top: 16.0),
                     decoration: BoxDecoration(
-                      color: Color(0xFF6a6977),
+                      color: const Color(0xFF6a6977),
                       borderRadius: BorderRadius.circular(12.0),
                     ),
-                    child: TextField(
+                    child: const TextField(
                       decoration: InputDecoration(
                         border: InputBorder.none,
                         hintText: "Write a comment...",

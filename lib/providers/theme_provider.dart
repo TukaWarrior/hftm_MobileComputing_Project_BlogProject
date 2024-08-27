@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:blog_project/settings/theme.dart';
 
 class ThemeProvider extends ChangeNotifier {
   ThemeMode _themeMode = ThemeMode.dark;

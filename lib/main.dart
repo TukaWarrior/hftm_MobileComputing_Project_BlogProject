@@ -1,12 +1,12 @@
-import 'package:blog_project/providers/blogpost_provider.dart';
-import 'package:blog_project/providers/theme_provider.dart';
-import 'package:blog_project/routes.dart';
+import 'package:flutter_blog/providers/blogpost_provider.dart';
+import 'package:flutter_blog/providers/theme_provider.dart';
+import 'package:flutter_blog/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
-import 'package:blog_project/providers/blog_provider.dart';
-import 'package:blog_project/screens/main_screen.dart';
-import 'package:blog_project/settings/theme.dart';
+import 'package:flutter_blog/providers/blog_provider.dart';
+import 'package:flutter_blog/screens/main_screen.dart';
+import 'package:flutter_blog/settings/theme.dart';
 
 void main() {
   // Set the status bar to be transparent

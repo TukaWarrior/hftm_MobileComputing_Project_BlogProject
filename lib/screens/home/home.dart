@@ -1,12 +1,12 @@
 import 'dart:io';
 
-import 'package:blog_project/screens/shared/navigation_bar.dart';
+import 'package:flutter_blog/screens/shared/navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:blog_project/models/blog.dart';
-import 'package:blog_project/providers/blog_provider.dart';
-import 'package:blog_project/screens/blog/blog_detail.dart';
-import 'package:blog_project/services/blog_repository.dart';
+import 'package:flutter_blog/models/blog.dart';
+import 'package:flutter_blog/providers/blog_provider.dart';
+import 'package:flutter_blog/screens/blog/blog_detail.dart';
+import 'package:flutter_blog/services/blog_repository.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});

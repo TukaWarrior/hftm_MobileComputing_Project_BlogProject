@@ -1,19 +1,12 @@
-# Blog Project - Mobile App
-This is my school project, that is part of the "Mobile Computing" course from the third year of study at the HFTM in Grenchen.
-The goal is to build up a nice and compelling looking mobile app that acts as a frontend to the Java backend project.
+# flutter_blog
 
-You can find the corresponding java backend here:
-- [hftm_VerteilteSysteme_Project_BlogProject
-](https://github.com/TukaWarrior/hftm_VerteilteSysteme_Project_BlogProject)
+A new Flutter project.
 
-
-## Project Structure
-**/lib/models** Contains the model classes like blogposts
-**/lib/providers** The provider classes are used to retrieve data from the backend.
 ## Getting Started
 
+This project is a starting point for a Flutter application.
 
-Resources to get started:
+A few resources to get you started if this is your first Flutter project:
 
 - [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
 - [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
@@ -21,7 +14,3 @@ Resources to get started:
 For help getting started with Flutter development, view the
 [online documentation](https://docs.flutter.dev/), which offers tutorials,
 samples, guidance on mobile development, and a full API reference.
-
-
-# Bugs
-[Bugs](./docs/readme/bugs.md)
