@@ -1,5 +1,6 @@
 import 'package:blog_project/providers/blogpost_provider.dart';
 import 'package:blog_project/providers/theme_provider.dart';
+import 'package:blog_project/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
@@ -35,39 +36,16 @@ class MainApp extends StatelessWidget {
       child: Consumer<ThemeProvider>(
         builder: (context, themeProvider, _) {
           return MaterialApp(
-            navigatorKey: mainNavigatorKey,
+            routes: appRoutes,
+            // navigatorKey: mainNavigatorKey,
             title: "Lucas Blog App",
             theme: lightTheme,
             darkTheme: darkTheme,
             themeMode: themeProvider.themeMode, // Use the theme mode from the provider
-            home: const MainScreen(),
+            // home: const MainScreen(),
           );
         },
       ),
     );
   }
 }
-
-
-// import 'package:flutter/material.dart';
-// import 'package:blog_project/view/home_screen.dart';
-
-// void main() {
-//   runApp(const MyApp());
-// }
-
-// class MyApp extends StatelessWidget {
-//   const MyApp({super.key});
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return MaterialApp(
-//       title: 'Blog Project',
-//       theme: ThemeData(
-//         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-//         useMaterial3: true,
-//       ),
-//       home: const HomePage(title: 'Flutter Blog Home Page'),
-//     );
-//   }
-// }

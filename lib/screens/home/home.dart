@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:blog_project/screens/shared/navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:blog_project/models/blog.dart';
@@ -22,6 +23,7 @@ class HomeScreen extends StatelessWidget {
         },
         child: const BlogListWidget(),
       ),
+      bottomNavigationBar: const NavBar(),
     );
   }
 }
