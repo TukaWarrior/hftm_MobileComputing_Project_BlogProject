@@ -8,16 +8,16 @@ import 'package:blog_project/providers/blog_provider.dart';
 import 'package:blog_project/services/blog_repository.dart';
 import 'package:image_picker/image_picker.dart';
 
-class BlogNewPage extends StatefulWidget {
-  const BlogNewPage({super.key});
+class BlogNewScreen extends StatefulWidget {
+  const BlogNewScreen({super.key});
 
   @override
-  State<BlogNewPage> createState() => _BlogNewPageState();
+  State<BlogNewScreen> createState() => _BlogNewScreenState();
 }
 
 enum _PageStates { loading, editing, done }
 
-class _BlogNewPageState extends State<BlogNewPage> {
+class _BlogNewScreenState extends State<BlogNewScreen> {
   final formKey = GlobalKey<FormState>();
   var pageState = _PageStates.editing;
   var title = "";

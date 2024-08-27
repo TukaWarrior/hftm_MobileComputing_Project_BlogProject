@@ -6,7 +6,7 @@ import 'package:blog_project/providers/blog_provider.dart';
 class BlogDetailPage extends StatelessWidget {
   final Blog blog;
 
-  const BlogDetailPage({required this.blog, Key? key}) : super(key: key);
+  const BlogDetailPage.BlogDetailScreen({required this.blog, Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

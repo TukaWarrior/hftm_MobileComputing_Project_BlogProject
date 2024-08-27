@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-class SensorMetadataScreen extends StatefulWidget {
-  const SensorMetadataScreen({super.key});
+class SensorsScreen extends StatefulWidget {
+  const SensorsScreen({super.key});
 
   @override
-  _SensorMetadataScreenState createState() => _SensorMetadataScreenState();
+  _SensorsScreenState createState() => _SensorsScreenState();
 }
 
-class _SensorMetadataScreenState extends State<SensorMetadataScreen> {
+class _SensorsScreenState extends State<SensorsScreen> {
   static const platform = MethodChannel('com.example.sensors/metadata');
   String sensorInfo = 'Unknown';
 

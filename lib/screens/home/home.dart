@@ -7,8 +7,8 @@ import 'package:blog_project/providers/blog_provider.dart';
 import 'package:blog_project/screens/blog/blog_detail.dart';
 import 'package:blog_project/services/blog_repository.dart';
 
-class HomePage extends StatelessWidget {
-  const HomePage({super.key});
+class HomeScreen extends StatelessWidget {
+  const HomeScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -68,7 +68,7 @@ class BlogWidget extends StatelessWidget {
       child: GestureDetector(
         onTap: () {
           Navigator.of(context).push(MaterialPageRoute(
-            builder: (context) => BlogDetailPage(blog: blog),
+            builder: (context) => BlogDetailPage.BlogDetailScreen(blog: blog),
           ));
         },
         child: Card(

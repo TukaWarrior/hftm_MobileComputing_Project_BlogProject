@@ -4,8 +4,8 @@ import 'package:provider/provider.dart';
 import 'package:blog_project/services/blogpost_service.dart';
 import 'package:blog_project/models/blogpost.dart';
 
-class BlogPostPage extends StatelessWidget {
-  const BlogPostPage({super.key});
+class BlogPostScreen extends StatelessWidget {
+  const BlogPostScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
