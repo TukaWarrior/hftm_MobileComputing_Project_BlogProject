@@ -11,9 +11,9 @@ class BlogDetailPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // appBar: AppBar(
-      //   title: const Text('Blog Details'),
-      // ),
+      appBar: AppBar(
+        title: const Text('Blog Details'),
+      ),
       body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
