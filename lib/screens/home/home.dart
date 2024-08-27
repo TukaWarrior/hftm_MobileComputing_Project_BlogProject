@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:blog_project/models/blog.dart';
 import 'package:blog_project/providers/blog_provider.dart';
-import 'package:blog_project/screens/blog/blog_detail_page.dart';
+import 'package:blog_project/screens/blog/blog_detail.dart';
 import 'package:blog_project/services/blog_repository.dart';
 
 class HomePage extends StatelessWidget {
