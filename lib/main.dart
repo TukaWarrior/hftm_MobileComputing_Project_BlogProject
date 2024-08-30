@@ -6,9 +6,8 @@ import 'package:flutter_blog/providers/blogpost_provider.dart';
 import 'package:flutter_blog/providers/theme_provider.dart';
 import 'package:flutter_blog/routes.dart';
 import 'package:flutter_blog/providers/blog_provider.dart';
-import 'package:flutter_blog/screens/main_screen.dart';
 import 'package:flutter_blog/settings/theme.dart';
-import 'firebase_options.dart'; // Import your Firebase options
+import 'firebase_options.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized(); // Ensure Flutter bindings are initialized
