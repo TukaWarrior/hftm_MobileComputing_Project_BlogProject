@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "177083748320",
+    "project_id": "ldb-flutter-blog",
+    "storage_bucket": "ldb-flutter-blog.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:177083748320:android:a926539f3eeaa0735ea585",
+        "android_client_info": {
+          "package_name": "ch.ldb.flutter_blog"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBMvyhEO6GW3TKLQUUcPglKKNpYI31VDTY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
