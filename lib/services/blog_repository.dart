@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:blog_project/models/blog.dart';
+import 'package:flutter_blog/models/blog.dart';
 
 class BlogRepository {
   // Static instance + private Constructor for simple Singleton-approach
@@ -13,21 +13,33 @@ class BlogRepository {
 
   void _initializeBlogs() async {
     addBlogPost(Blog(
-      title: "Blog Title 1",
-      content: "Blog Title 1",
+      title: "Blog Title 1 is a very very very very long title",
+      content:
+          "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.",
       publishedAt: DateTime.now(),
+      likes: 1,
+      category: BlogCategory.Technology, // Set a valid category
+      imagePath: "assets/images/exampleimage01.webp", // Corrected path with forward slashes
     ));
 
     addBlogPost(Blog(
       title: "Blog Title 2",
-      content: "Blog Title 2",
+      content:
+          "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.",
       publishedAt: DateTime.now().subtract(const Duration(days: 1)),
+      likes: 50,
+      category: BlogCategory.Lifestyle, // Set a valid category
+      imagePath: "assets/images/exampleimage02.webp", // Corrected path with forward slashes
     ));
 
     addBlogPost(Blog(
       title: "Blog Title 3",
-      content: "Blog Title 3",
+      content:
+          "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.",
       publishedAt: DateTime.now().subtract(const Duration(days: 2)),
+      likes: 42,
+      category: BlogCategory.Education, // Set a valid category
+      imagePath: "assets/images/exampleimage03.webp", // Corrected path with forward slashes
     ));
 
     _isInitialized = true;

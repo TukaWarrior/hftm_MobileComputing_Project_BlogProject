@@ -1,8 +1,8 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:blog_project/models/blog.dart';
-import 'package:blog_project/services/blog_repository.dart';
+import 'package:flutter_blog/models/blog.dart';
+import 'package:flutter_blog/services/blog_repository.dart';
 
 class BlogProvider extends ChangeNotifier {
   bool isLoading = false;
