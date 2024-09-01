@@ -1,3 +1,4 @@
+import 'package:flutter_blog/screens/blogpost/blogpost.dart';
 import 'package:flutter_blog/screens/home/home.dart';
 import 'package:flutter_blog/screens/about/about.dart';
 import 'package:flutter_blog/screens/blog/blog_new.dart';
@@ -13,4 +14,5 @@ var appRoutes = {
   '/blognew': (context) => const BlogNewScreen(),
   '/sensors': (context) => const SensorsScreen(),
   '/profile': (context) => const ProfileScreen(),
+  '/blogpost': (context) => const BlogPostScreen(),
 };
