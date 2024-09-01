@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_blog/models/blogpost.dart';
+import 'package:flutter_blog/screens/blogpost/blogpost_item.dart';
 import 'package:flutter_blog/screens/shared/error.dart';
 import 'package:flutter_blog/screens/shared/loading.dart';
 import 'package:flutter_blog/screens/shared/navigation_bar.dart';
@@ -27,9 +28,12 @@ class BlogPostScreen extends StatelessWidget {
               appBar: AppBar(
                 title: const Text('Blogposts'),
               ),
-              backgroundColor: Colors.deepPurple,
-              body: Column(
-                children: blogposts.map((blogpost) => Text(blogpost.title)).toList(),
+              body: ListView(
+                children: blogposts
+                    .map((blogpost) => BlogPostItem(
+                          blogpost: blogpost,
+                        ))
+                    .toList(),
               ),
               bottomNavigationBar: const NavBar(),
             );
