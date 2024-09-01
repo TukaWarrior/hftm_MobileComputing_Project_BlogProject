@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_blog/services/auth.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class LoginScreen extends StatelessWidget {
   const LoginScreen({super.key});
@@ -19,14 +20,18 @@ class LoginScreen extends StatelessWidget {
             const FlutterLogo(
               size: 150,
             ),
-            Flexible(
-              child: LoginButton(
-                text: "Continue as Guest",
-                icon: Icons.face_outlined,
-                color: Colors.deepPurple,
-                loginMethod: AuthService().anonymousLogin,
-              ),
-            )
+            LoginButton(
+              text: "Sign in with Google",
+              icon: FontAwesomeIcons.google,
+              color: Colors.blue,
+              loginMethod: AuthService().googleLogin,
+            ),
+            LoginButton(
+              text: "Continue as Guest",
+              icon: FontAwesomeIcons.userNinja,
+              color: Colors.deepPurple,
+              loginMethod: AuthService().anonymousLogin,
+            ),
           ],
         ),
       ),
@@ -64,9 +69,24 @@ class LoginButton extends StatelessWidget {
             // Handle login error (optional)
           }
         },
-        // onPressed: () => loginMethod,
         label: Text(text),
       ),
     );
   }
 }
+
+
+// children: [
+//             const FlutterLogo(
+//               size: 150,
+//             ),
+//             Flexible(
+//               child: LoginButton(
+//                 text: "Continue as Guest",
+//                 icon: Icons.face_outlined,
+//                 color: Colors.deepPurple,
+//                 loginMethod: AuthService().anonymousLogin,
+//               ),
+              
+//             )
+//           ],

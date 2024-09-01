@@ -12,7 +12,20 @@
           "package_name": "ch.ldb.flutter_blog"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "177083748320-0us2i5urr8c9tsg6g0m4r9oqs1vqgs60.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "ch.ldb.flutter_blog",
+            "certificate_hash": "a31a27e3375f9f830b0047ef357e20940d4ffc97"
+          }
+        },
+        {
+          "client_id": "177083748320-0emhv90iio402hfss2psjgmi045lrcbk.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyBMvyhEO6GW3TKLQUUcPglKKNpYI31VDTY"
@@ -20,7 +33,19 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "177083748320-0emhv90iio402hfss2psjgmi045lrcbk.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "177083748320-nm3unngs7df3qohblorbgeiqp93namoq.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "ch.ldb.hftmMobilecomputingProjectBlogproject"
+              }
+            }
+          ]
         }
       }
     }
