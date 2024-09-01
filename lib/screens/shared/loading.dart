@@ -6,8 +6,8 @@ class Loader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const SizedBox(
-      width: 250,
-      height: 250,
+      width: 50,
+      height: 50,
       child: CircularProgressIndicator(),
     );
   }

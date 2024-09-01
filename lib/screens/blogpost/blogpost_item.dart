@@ -14,7 +14,6 @@ class BlogPostItem extends StatelessWidget {
       clipBehavior: Clip.antiAlias,
       child: InkWell(
         onTap: () {
-          // Uncomment and update this when the BlogPostScreen (detail view) is ready
           Navigator.of(context).push(
             MaterialPageRoute(
               builder: (BuildContext context) => BlogPostDetailScreen(blogpost: blogpost),
@@ -27,19 +26,37 @@ class BlogPostItem extends StatelessWidget {
             if (blogpost.imageURL.isNotEmpty)
               Image.network(
                 blogpost.imageURL,
-                height: 200, // Fixed height for a better layout
+                height: 200,
                 fit: BoxFit.cover,
                 width: double.infinity,
               ),
             Padding(
               padding: EdgeInsets.all(10),
-              child: Text(
-                blogpost.title,
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 18,
-                ),
-                overflow: TextOverflow.ellipsis,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    blogpost.title,
+                    style: Theme.of(context).textTheme.titleLarge,
+                    textAlign: TextAlign.left,
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        blogpost.category,
+                        style: Theme.of(context).textTheme.labelLarge,
+                      ),
+                      Text(
+                        blogpost.publishedDate.toString().substring(0, 10),
+                        style: Theme.of(context).textTheme.labelLarge,
+                      )
+                    ],
+                  ),
+                ],
               ),
             ),
           ],
