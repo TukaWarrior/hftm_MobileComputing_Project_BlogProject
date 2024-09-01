@@ -10,11 +10,11 @@ final ThemeData lightTheme = ThemeData(
   appBarTheme: AppBarTheme(
     backgroundColor: const ColorScheme.light().surfaceContainerHighest,
   ),
-  textTheme: const TextTheme(
-    titleLarge: TextStyle(
-      fontSize: 30,
-    ),
-  ),
+  // textTheme: const TextTheme(
+  //   titleLarge: TextStyle(
+  //     fontSize: 30,
+  //   ),
+  // ),
   // navigationBarTheme: NavigationBarThemeData(
   //   indicatorColor: Colors.transparent, // Transparent indicator for dark theme
   //   backgroundColor: const Color(0xFF32353F), // Darker background for dark theme
@@ -40,12 +40,13 @@ final ThemeData darkTheme = ThemeData(
   appBarTheme: AppBarTheme(
     backgroundColor: const ColorScheme.dark().surfaceContainerHighest,
   ),
-  textTheme: const TextTheme(
-    displayLarge: TextStyle(
-      fontWeight: FontWeight.w800,
-      fontSize: 30,
-    ),
-  ),
+
+  // textTheme: const TextTheme(
+  //   displayLarge: TextStyle(
+  //     fontWeight: FontWeight.w800,
+  //     fontSize: 30,§
+  //   ),
+  // ),
   navigationBarTheme: NavigationBarThemeData(
     indicatorColor: Colors.transparent, // Transparent indicator for dark theme
     backgroundColor: const Color(0xFF30333c), // Darker background for dark theme

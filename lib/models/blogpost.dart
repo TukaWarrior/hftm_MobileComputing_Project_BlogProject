@@ -5,7 +5,6 @@ part 'blogpost.g.dart';
 
 @JsonSerializable()
 class BlogPost {
-  // final String id;
   final String title;
   final String content;
   final String category;
@@ -24,7 +23,6 @@ class BlogPost {
   final String userUID;
 
   BlogPost({
-    // this.id = '',
     this.title = '',
     this.content = '',
     this.category = '',
@@ -43,14 +41,6 @@ class BlogPost {
   static dynamic _toJsonDateTime(DateTime? dateTime) {
     return dateTime != null ? Timestamp.fromDate(dateTime) : null;
   }
-
-// // Custom fromJson for Timestamp -> Timestamp
-//   static Timestamp? _fromJsonTimestamp(dynamic value) {
-//     return value != null ? value as Timestamp : null;
-//   }
-
-//   // Custom toJson for Timestamp -> Timestamp
-//   static dynamic _toJsonTimestamp(Timestamp? timestamp) => timestamp;
 
   factory BlogPost.fromJson(Map<String, dynamic> json) => _$BlogPostFromJson(json);
   Map<String, dynamic> toJson() => _$BlogPostToJson(this);
