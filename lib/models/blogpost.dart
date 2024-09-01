@@ -1,31 +1,24 @@
+import 'package:json_annotation/json_annotation.dart';
+
+part 'blogpost.g.dart';
+
+@JsonSerializable()
 class BlogPost {
-  int id;
-  String title;
-  String content;
-  DateTime createdAt;
-  DateTime editedAt;
-  int likes;
-  bool isLikedByMe = false;
+  final String id;
+  final String title;
+  final String content;
+  final String imageURL;
+  final String audioURL;
+  final String userUID;
 
   BlogPost({
-    required this.id,
-    required this.title,
-    required this.content,
-    required this.createdAt,
-    required this.editedAt,
-    required this.likes,
+    this.id = '',
+    this.title = '',
+    this.content = '',
+    this.imageURL = '',
+    this.audioURL = '',
+    this.userUID = '',
   });
-
-  factory BlogPost.fromJson(Map<String, dynamic> json) {
-    return BlogPost(
-      id: json['id'],
-      title: json['title'],
-      content: json['content'],
-      createdAt: DateTime.parse(json['createdAt']),
-      editedAt: DateTime.parse(json['editedAt']),
-      likes: json['likes'],
-    );
-  }
-
-  String get publishedDateString => "${createdAt.day}.${createdAt.month}.${createdAt.year}";
+  factory BlogPost.fromJson(Map<String, dynamic> json) => _$BlogPostFromJson(json);
+  Map<String, dynamic> toJson() => _$BlogPostToJson(this);
 }
