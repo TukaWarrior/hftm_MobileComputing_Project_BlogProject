@@ -23,6 +23,7 @@ class _NavBarState extends State<NavBar> {
             NavigationDestination(icon: Icon(Icons.category_outlined), label: 'BlogView'),
             NavigationDestination(icon: Icon(Icons.settings_outlined), label: 'SensorData'),
             NavigationDestination(icon: Icon(Icons.account_box_outlined), label: 'Profile'),
+            NavigationDestination(icon: Icon(Icons.account_box_outlined), label: 'BlogPost'),
           ],
           selectedIndex: selectedIndex,
           onDestinationSelected: (int index) {
@@ -41,6 +42,9 @@ class _NavBarState extends State<NavBar> {
                   break;
                 case 3:
                   Navigator.pushNamed(context, '/profile');
+                  break;
+                case 4:
+                  Navigator.pushNamed(context, '/blogpost');
                   break;
               }
             });
