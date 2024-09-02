@@ -45,3 +45,5 @@ class BlogPost {
   factory BlogPost.fromJson(Map<String, dynamic> json) => _$BlogPostFromJson(json);
   Map<String, dynamic> toJson() => _$BlogPostToJson(this);
 }
+
+// Run 'flutter pub run build_runner build' to create JsonSerializable. 

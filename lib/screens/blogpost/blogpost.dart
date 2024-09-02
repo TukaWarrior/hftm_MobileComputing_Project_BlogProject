@@ -12,7 +12,7 @@ class BlogPostScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<List<BlogPost>>(
-        future: FirestoreService().getBlogPosts(),
+        future: FirestoreService().getAllBlogPosts(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const LoadingScreen();

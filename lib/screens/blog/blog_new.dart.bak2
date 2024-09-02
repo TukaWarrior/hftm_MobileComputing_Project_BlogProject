@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
 import 'package:flutter_blog/models/blogpost.dart';
-import 'package:flutter_blog/models/category.dart'; // Import the Category model
 import 'package:flutter_blog/services/firestore.dart';
 
 class BlogNewScreen extends StatefulWidget {
@@ -21,27 +20,6 @@ class _BlogNewScreenState extends State<BlogNewScreen> {
   File? _image;
 
   final picker = ImagePicker();
-  final FirestoreService firestoreService = FirestoreService();
-
-  List<Category> _categories = []; // List to store fetched categories
-  String? _selectedCategory; // Store selected category with emoji
-
-  @override
-  void initState() {
-    super.initState();
-    _fetchCategories(); // Fetch categories on initialization
-  }
-
-  Future<void> _fetchCategories() async {
-    try {
-      List<Category> categories = await firestoreService.getAllCategories();
-      setState(() {
-        _categories = categories;
-      });
-    } catch (e) {
-      print('Error fetching categories: $e');
-    }
-  }
 
   Future getImage() async {
     final pickedFile = await picker.pickImage(source: ImageSource.camera);
@@ -60,12 +38,13 @@ class _BlogNewScreenState extends State<BlogNewScreen> {
       _formKey.currentState!.save();
       final userUID = FirebaseAuth.instance.currentUser?.uid ?? '';
       // Upload the image to Firebase Storage first
+      FirestoreService firestoreService = FirestoreService();
       String imageUrl = _image == null ? '' : await firestoreService.uploadImage(_image!, 'blogpost_images');
       // Create a new blog post instance
       BlogPost newPost = BlogPost(
         title: _title,
         content: _content,
-        category: _selectedCategory ?? '', // Use the combined emoji + name string
+        category: _category,
         publishedDate: DateTime.now(),
         imageURL: imageUrl,
         userUID: userUID,
@@ -97,27 +76,10 @@ class _BlogNewScreenState extends State<BlogNewScreen> {
               onSaved: (value) => _content = value ?? '',
               validator: (value) => value!.isEmpty ? 'Content cannot be empty' : null,
             ),
-            SizedBox(height: 10),
-            _categories.isEmpty
-                ? CircularProgressIndicator() // Show loading indicator if categories are being fetched
-                : DropdownButtonFormField<String>(
-                    decoration: InputDecoration(labelText: 'Category'),
-                    value: _selectedCategory,
-                    items: _categories.map((Category category) {
-                      // Combine emoji and name in the dropdown menu items
-                      String displayValue = '${category.emoji} ${category.name}';
-                      return DropdownMenuItem<String>(
-                        value: displayValue, // Use combined string as value
-                        child: Text(displayValue),
-                      );
-                    }).toList(),
-                    onChanged: (value) {
-                      setState(() {
-                        _selectedCategory = value; // Store combined emoji + name string
-                      });
-                    },
-                    validator: (value) => value == null || value.isEmpty ? 'Please select a category' : null,
-                  ),
+            TextFormField(
+              decoration: InputDecoration(labelText: 'Category'),
+              onSaved: (value) => _category = value ?? '',
+            ),
             SizedBox(height: 10),
             ElevatedButton(
               onPressed: getImage,
