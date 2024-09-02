@@ -1,35 +1,57 @@
 import 'dart:io';
+
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:flutter_blog/models/blog.dart';
-import 'package:flutter_blog/providers/blog_provider.dart';
-import 'package:flutter_blog/services/blog_repository.dart';
 import 'package:image_picker/image_picker.dart';
 
-class BlogNewScreen extends StatefulWidget {
-  const BlogNewScreen({super.key});
+import 'package:flutter_blog/models/blogpost.dart';
+import 'package:flutter_blog/services/firestore.dart';
 
+class BlogNewScreen extends StatefulWidget {
   @override
-  State<BlogNewScreen> createState() => _BlogNewScreenState();
+  _BlogNewScreenState createState() => _BlogNewScreenState();
 }
 
-enum _PageStates { loading, editing, done }
-
 class _BlogNewScreenState extends State<BlogNewScreen> {
-  final formKey = GlobalKey<FormState>();
-  var pageState = _PageStates.editing;
-  var title = "";
-  var content = "";
-  String? imagePath; // Add this variable to store the selected image path
+  final _formKey = GlobalKey<FormState>();
+  String _title = '';
+  String _content = '';
+  String _category = '';
+  File? _image;
 
-  final ImagePicker _picker = ImagePicker(); // ImagePicker instance
+  final picker = ImagePicker();
 
-  Future<void> _pickImage() async {
-    final XFile? image = await _picker.pickImage(source: ImageSource.camera); // Capture image from camera
-    if (image != null) {
-      setState(() {
-        imagePath = image.path; // Set the image path
-      });
+  Future getImage() async {
+    final pickedFile = await picker.pickImage(source: ImageSource.camera);
+
+    setState(() {
+      if (pickedFile != null) {
+        _image = File(pickedFile.path);
+      } else {
+        print('No image selected.');
+      }
+    });
+  }
+
+  Future<void> _saveBlogPost() async {
+    if (_formKey.currentState!.validate()) {
+      _formKey.currentState!.save();
+      final userUID = FirebaseAuth.instance.currentUser?.uid ?? '';
+      // Upload the image to Firebase Storage first
+      FirestoreService firestoreService = FirestoreService();
+      String imageUrl = _image == null ? '' : await firestoreService.uploadImage(_image!, 'blogpost_images');
+      // Create a new blog post instance
+      BlogPost newPost = BlogPost(
+        title: _title,
+        content: _content,
+        category: _category,
+        publishedDate: DateTime.now(),
+        imageURL: imageUrl,
+        userUID: userUID,
+      );
+      // Save the blog post to Firestore
+      await firestoreService.addBlogPost(newPost);
+      Navigator.of(context).pop(); // Optionally pop back to the previous screen
     }
   }
 
@@ -37,114 +59,40 @@ class _BlogNewScreenState extends State<BlogNewScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("New Blog"),
+        title: Text("Create Blog Post"),
       ),
-      body: Builder(builder: (context) {
-        switch (pageState) {
-          case _PageStates.loading:
-            return const Center(child: CircularProgressIndicator());
-          case _PageStates.done:
-            return Center(child: Text("Blog '$title' created!"));
-          case _PageStates.editing:
-            return Form(
-              key: formKey,
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: ListView(
-                  children: [
-                    const SizedBox(height: 20),
-                    TextFormField(
-                      decoration: const InputDecoration(
-                        labelText: "Title",
-                        border: OutlineInputBorder(),
-                      ),
-                      validator: (value) {
-                        if (value == null || value.length < 4) {
-                          return "Please enter title with 4 or more characters";
-                        }
-                        return null;
-                      },
-                      onSaved: (value) => title = value!,
-                    ),
-                    const SizedBox(height: 20),
-                    TextFormField(
-                      maxLines: 10,
-                      decoration: const InputDecoration(
-                        labelText: "Content",
-                        border: OutlineInputBorder(),
-                      ),
-                      validator: (value) {
-                        if (value == null || value.length < 10) {
-                          return "Please enter content with 10 or more characters";
-                        }
-                        return null;
-                      },
-                      onSaved: (value) => content = value!,
-                    ),
-                    const SizedBox(height: 20),
-                    ElevatedButton(
-                      onPressed: _pickImage, // Button to capture image
-                      child: const Text("Capture Image"),
-                    ),
-                    if (imagePath != null)
-                      Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 16.0),
-                        child: Image.file(File(imagePath!)), // Display the captured image
-                      ),
-                    const SizedBox(height: 20),
-                    ElevatedButton(
-                      onPressed: () async {
-                        // Hide keyboard
-                        FocusScope.of(context).unfocus();
-
-                        if (formKey.currentState!.validate()) {
-                          setState(() {
-                            pageState = _PageStates.loading;
-                          });
-                          formKey.currentState!.save();
-                          await _createBlog();
-                          setState(() {
-                            pageState = _PageStates.done;
-                          });
-                        }
-                      },
-                      child: const Text("Save"),
-                    ),
-                    const SizedBox(height: 8.0),
-                  ],
-                ),
-              ),
-            );
-        }
-      }),
+      body: Form(
+        key: _formKey,
+        child: ListView(
+          padding: EdgeInsets.all(8.0),
+          children: <Widget>[
+            TextFormField(
+              decoration: InputDecoration(labelText: 'Title'),
+              onSaved: (value) => _title = value ?? '',
+              validator: (value) => value!.isEmpty ? 'Title cannot be empty' : null,
+            ),
+            TextFormField(
+              decoration: InputDecoration(labelText: 'Content'),
+              onSaved: (value) => _content = value ?? '',
+              validator: (value) => value!.isEmpty ? 'Content cannot be empty' : null,
+            ),
+            TextFormField(
+              decoration: InputDecoration(labelText: 'Category'),
+              onSaved: (value) => _category = value ?? '',
+            ),
+            SizedBox(height: 10),
+            ElevatedButton(
+              onPressed: getImage,
+              child: Text('Select Image'),
+            ),
+            if (_image != null) Image.file(_image!),
+            ElevatedButton(
+              onPressed: _saveBlogPost,
+              child: Text('Submit Blog Post'),
+            ),
+          ],
+        ),
+      ),
     );
-  }
-
-  Future<void> _createBlog() async {
-    var blogProvider = context.read<BlogProvider>();
-    await Future.delayed(const Duration(seconds: 1));
-    await BlogRepository.instance.addBlogPost(Blog(
-      title: title,
-      content: content,
-      publishedAt: DateTime.now(),
-      category: BlogCategory.Technology,
-      likes: 42,
-      imagePath: imagePath, // Save the image path
-    ));
-    blogProvider.readBlogs();
-  }
-}
-
-class BlogForm extends StatefulWidget {
-  const BlogForm({super.key});
-
-  @override
-  State<BlogForm> createState() => _BlogFormState();
-}
-
-class _BlogFormState extends State<BlogForm> {
-  @override
-  Widget build(BuildContext context) {
-    return Container();
   }
 }

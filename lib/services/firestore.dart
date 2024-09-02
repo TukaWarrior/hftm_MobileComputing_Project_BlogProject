@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter_blog/models/blogpost.dart';
@@ -20,6 +22,25 @@ class FirestoreService {
     var ref = _db.collection('blogposts').doc(blogpostId);
     var snapshot = await ref.get();
     return BlogPost.fromJson(snapshot.data() ?? {});
+  }
+
+  // AI Generated
+  Future<String> uploadImage(File file, String path) async {
+    try {
+      Reference ref = _storage.ref().child('$path/${DateTime.now().toIso8601String()}');
+      UploadTask uploadTask = ref.putFile(file);
+      TaskSnapshot snapshot = await uploadTask;
+      String downloadUrl = await snapshot.ref.getDownloadURL();
+      return downloadUrl;
+    } catch (e) {
+      print(e);
+      return '';
+    }
+  }
+
+  // AI Generated
+  Future<void> addBlogPost(BlogPost blogPost) async {
+    await _db.collection('blogposts').add(blogPost.toJson());
   }
 
   // Future<String> getDownloadURL(String filePath) async {
