@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_blog/models/blogpost.dart';
-import 'package:flutter_blog/screens/blogpost/blogpost.dart';
 import 'package:flutter_blog/screens/blogpost/blogpost_detail.dart';
 
 class BlogPostItem extends StatelessWidget {
