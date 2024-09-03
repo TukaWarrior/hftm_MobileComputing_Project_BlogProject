@@ -32,7 +32,7 @@ class _NavBarState extends State<NavBar> {
               // Add navigation logic based on index
               switch (index) {
                 case 0:
-                  // Navigator.pushNamed(context, '/');
+                  Navigator.pushNamed(context, '/');
                   break;
                 case 1:
                   Navigator.pushNamed(context, '/blognew');

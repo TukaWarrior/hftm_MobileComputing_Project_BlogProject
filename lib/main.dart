@@ -2,10 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:flutter_blog/providers/blogpost_provider.dart';
 import 'package:flutter_blog/providers/theme_provider.dart';
 import 'package:flutter_blog/routes.dart';
-import 'package:flutter_blog/providers/blog_provider.dart';
 import 'package:flutter_blog/settings/theme.dart';
 import 'firebase_options.dart';
 
@@ -65,8 +63,6 @@ class _AppState extends State<App> {
 
         return MultiProvider(
           providers: [
-            ChangeNotifierProvider(create: (_) => BlogProvider()),
-            ChangeNotifierProvider(create: (_) => BlogPostProvider()),
             ChangeNotifierProvider(create: (_) => ThemeProvider()),
           ],
           child: Consumer<ThemeProvider>(

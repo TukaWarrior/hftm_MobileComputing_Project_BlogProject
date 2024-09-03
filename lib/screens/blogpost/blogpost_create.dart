@@ -8,12 +8,12 @@ import 'package:flutter_blog/models/blogpost.dart';
 import 'package:flutter_blog/models/category.dart'; // Import the Category model
 import 'package:flutter_blog/services/firestore.dart';
 
-class BlogNewScreen extends StatefulWidget {
+class BlogPostCreateScreen extends StatefulWidget {
   @override
-  _BlogNewScreenState createState() => _BlogNewScreenState();
+  _BlogPostCreateScreenState createState() => _BlogPostCreateScreenState();
 }
 
-class _BlogNewScreenState extends State<BlogNewScreen> {
+class _BlogPostCreateScreenState extends State<BlogPostCreateScreen> {
   final _formKey = GlobalKey<FormState>();
   String _title = '';
   String _content = '';
