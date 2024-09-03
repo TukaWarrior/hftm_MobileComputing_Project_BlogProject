@@ -43,8 +43,20 @@ class _BlogPostCreateScreenState extends State<BlogPostCreateScreen> {
     }
   }
 
-  Future getImage() async {
+  Future<void> _getImageFromCamera() async {
     final pickedFile = await picker.pickImage(source: ImageSource.camera);
+
+    setState(() {
+      if (pickedFile != null) {
+        _image = File(pickedFile.path);
+      } else {
+        print('No image selected.');
+      }
+    });
+  }
+
+  Future<void> _getImageFromGallery() async {
+    final pickedFile = await picker.pickImage(source: ImageSource.gallery);
 
     setState(() {
       if (pickedFile != null) {
@@ -120,8 +132,12 @@ class _BlogPostCreateScreenState extends State<BlogPostCreateScreen> {
                   ),
             SizedBox(height: 10),
             ElevatedButton(
-              onPressed: getImage,
-              child: Text('Select Image'),
+              onPressed: _getImageFromCamera,
+              child: Text('Select Image from Camera'),
+            ),
+            ElevatedButton(
+              onPressed: _getImageFromGallery,
+              child: Text('Select Image from Gallery'),
             ),
             if (_image != null) Image.file(_image!),
             ElevatedButton(
