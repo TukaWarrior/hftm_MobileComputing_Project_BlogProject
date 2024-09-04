@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_blog/services/profile_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_blog/providers/theme_provider.dart';
@@ -64,6 +65,7 @@ class _AppState extends State<App> {
         return MultiProvider(
           providers: [
             ChangeNotifierProvider(create: (_) => ThemeProvider()),
+            ChangeNotifierProvider(create: (_) => ProfileProvider()),
           ],
           child: Consumer<ThemeProvider>(
             builder: (context, themeProvider, _) {
