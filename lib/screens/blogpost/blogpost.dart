@@ -26,6 +26,7 @@ class BlogPostScreen extends StatelessWidget {
             return Scaffold(
               appBar: AppBar(
                 title: const Text('Blogposts'),
+                backgroundColor: Colors.transparent,
               ),
               body: ListView(
                 children: blogposts

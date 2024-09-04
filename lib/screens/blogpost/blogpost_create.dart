@@ -94,6 +94,7 @@ class _BlogPostCreateScreenState extends State<BlogPostCreateScreen> {
     return Scaffold(
       appBar: AppBar(
         title: const Text("Create Blog Post"),
+        backgroundColor: Colors.transparent,
       ),
       bottomNavigationBar: const NavBar(),
       body: Form(

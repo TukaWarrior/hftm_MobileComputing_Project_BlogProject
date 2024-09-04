@@ -55,6 +55,7 @@ class _SensorsScreenState extends State<SensorsScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text("Sensor Metadata")),
+      backgroundColor: Colors.transparent,
       body: Center(
         child: Text(sensorInfo, style: const TextStyle(fontSize: 18)),
       ),
