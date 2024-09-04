@@ -30,7 +30,7 @@ class BlogPostItem extends StatelessWidget {
                 width: double.infinity,
               ),
             Padding(
-              padding: EdgeInsets.all(10),
+              padding: const EdgeInsets.all(10),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -39,7 +39,7 @@ class BlogPostItem extends StatelessWidget {
                     style: Theme.of(context).textTheme.titleLarge,
                     textAlign: TextAlign.left,
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 10,
                   ),
                   Row(
