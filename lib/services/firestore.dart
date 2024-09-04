@@ -1,54 +1,96 @@
 import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter_blog/models/blogpost.dart';
 import 'package:flutter_blog/models/category.dart';
 import 'package:flutter_blog/models/profile.dart';
+import 'package:flutter_blog/services/auth.dart';
+
 // firestore.dart handles the data fetching from the firestore database.
 
 class FirestoreService {
   final FirebaseFirestore _db = FirebaseFirestore.instance;
   final FirebaseStorage _storage = FirebaseStorage.instance;
+  var user = AuthService().user;
 
   // ------------------ Blog Posts ------------------
   Future<List<BlogPost>> getAllBlogPosts() async {
-    var ref = _db.collection('blogposts');
-    var snapshot = await ref.get();
-    var data = snapshot.docs.map((s) => s.data());
-    var blogposts = data.map((d) => BlogPost.fromJson(d));
-    return blogposts.toList();
+    try {
+      var ref = _db.collection('blogposts');
+      var snapshot = await ref.get();
+      if (snapshot.docs.isEmpty) {
+        return [];
+      }
+      var data = snapshot.docs.map((s) => s.data());
+      var blogposts = data.map((d) => BlogPost.fromJson(d));
+      return blogposts.toList();
+    } on FirebaseException catch (e) {
+      throw Exception('An error occurred during the Firebase operation: ${e.message}');
+    } catch (e) {
+      throw Exception('Failed to fetch blog posts: $e');
+    }
   }
 
-  Future<BlogPost> getBlogPost(String blogpostId) async {
-    var ref = _db.collection('blogposts').doc(blogpostId);
-    var snapshot = await ref.get();
-    return BlogPost.fromJson(snapshot.data() ?? {});
+  Future<BlogPost?> getBlogPost(String blogpostId) async {
+    try {
+      var ref = _db.collection('blogposts').doc(blogpostId);
+      var snapshot = await ref.get();
+      if (snapshot.data() == null) {
+        return null;
+      }
+      return BlogPost.fromJson(snapshot.data()!);
+    } on FirebaseException catch (e) {
+      throw Exception('An error occurred during the Firebase operation: ${e.message}');
+    } catch (e) {
+      throw Exception('Failed to fetch blog post: $e');
+    }
   }
 
-  // AI Generated
   Future<void> addBlogPost(BlogPost blogPost) async {
-    await _db.collection('blogposts').add(blogPost.toJson());
+    try {
+      await _db.collection('blogposts').add(blogPost.toJson());
+    } on FirebaseException catch (e) {
+      throw Exception('An error occurred during the Firebase operation: ${e.message}');
+    } catch (e) {
+      throw Exception('Failed to create blog post: $e');
+    }
   }
 
   // ------------------ Categories ------------------
   Future<List<Category>> getAllCategories() async {
-    var ref = _db.collection('categories');
-    var snapshot = await ref.get();
-    var data = snapshot.docs.map((s) => s.data());
-    var categories = data.map((d) => Category.fromJson(d));
-    return categories.toList();
+    try {
+      var ref = _db.collection('categories');
+      var snapshot = await ref.get();
+      if (snapshot.docs.isEmpty) {
+        return [];
+      }
+      var data = snapshot.docs.map((s) => s.data());
+      var categories = data.map((d) => Category.fromJson(d));
+      return categories.toList();
+    } on FirebaseException catch (e) {
+      throw Exception('An error occurred during the Firebase operation: ${e.message}');
+    } catch (e) {
+      throw Exception('Failed to fetch categories: $e');
+    }
   }
 
-  Future<Category> getCategory(String categoryId) async {
-    var ref = _db.collection('categories').doc(categoryId);
-    var snapshot = await ref.get();
-    return Category.fromJson(snapshot.data() ?? {});
+  Future<Category?> getCategory(String categoryId) async {
+    try {
+      var ref = _db.collection('categories').doc(categoryId);
+      var snapshot = await ref.get();
+      if (snapshot.data() == null) {
+        return null;
+      }
+      return Category.fromJson(snapshot.data()!);
+    } on FirebaseException catch (e) {
+      throw Exception('An error occurred during the Firebase operation: ${e.message}');
+    } catch (e) {
+      throw Exception('Failed to fetch category: $e');
+    }
   }
 
   // ------------------ Image Upload ------------------
-  // AI Generated
   Future<String> uploadImage(File file, String path) async {
     try {
       Reference ref = _storage.ref().child('$path/${DateTime.now().toIso8601String()}');
@@ -56,38 +98,41 @@ class FirestoreService {
       TaskSnapshot snapshot = await uploadTask;
       String downloadUrl = await snapshot.ref.getDownloadURL();
       return downloadUrl;
+    } on FirebaseException catch (e) {
+      throw Exception('An error occurred during the Firebase operation: ${e.message}');
     } catch (e) {
-      print(e);
-      return '';
+      throw Exception('Failed to upload image: $e');
     }
   }
 
 // ------------------ User Profiles ------------------
-  Future<void> createOrUpdateUserProfile(Profile profileData) async {
-    final profile = FirebaseAuth.instance.currentUser;
-    if (profile != null) {
-      final profileRef = _db.collection('profiles').doc(profile.uid);
-      await profileRef.set(profileData.toJson(), SetOptions(merge: true));
+  Future<void> createOrUpdateProfile(Profile profile) async {
+    try {
+      if (user != null) {
+        final profileRef = _db.collection('profiles').doc(user!.uid);
+        await profileRef.set(profile.toJson(), SetOptions(merge: true));
+      }
+    } on FirebaseException catch (e) {
+      throw Exception('An error occurred during the Firebase operation: ${e.message}');
+    } catch (e) {
+      throw Exception('Failed to create or update profile: $e');
     }
   }
 
-  Future<Profile> getUserProfile() async {
-    final currentUser = FirebaseAuth.instance.currentUser;
-    if (currentUser != null) {
-      final userDoc = await _db.collection('profiles').doc(currentUser.uid).get();
+  Future<Profile?> getProfile() async {
+    try {
+      if (user == null) {
+        return null;
+      }
+      final userDoc = await _db.collection('profiles').doc(user!.uid).get();
       if (userDoc.exists) {
         return Profile.fromJson(userDoc.data()!);
       }
+      return null;
+    } on FirebaseException catch (e) {
+      throw Exception('An error occurred during the Firebase operation: ${e.message}');
+    } catch (e) {
+      throw Exception('Failed to fetch profile: $e');
     }
-    return;
-  }
-
-  Future<bool> checkUserProfileExists() async {
-    final currentUser = FirebaseAuth.instance.currentUser;
-    if (currentUser != null) {
-      final userDoc = await _db.collection('profiles').doc(currentUser.uid).get();
-      return userDoc.exists;
-    }
-    return false;
   }
 }
