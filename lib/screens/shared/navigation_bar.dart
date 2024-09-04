@@ -40,7 +40,7 @@ class _NavBarState extends State<NavBar> {
   Widget build(BuildContext context) {
     return Container(
       height: 64.0,
-      margin: const EdgeInsets.all(24.0),
+      margin: const EdgeInsets.all(16.0),
       child: ClipRRect(
         borderRadius: BorderRadius.circular(16.0),
         child: NavigationBar(
