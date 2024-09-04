@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_blog/main.dart';
+import 'package:flutter_blog/screens/shared/navigation_bar.dart';
 import 'package:flutter_blog/services/auth.dart';
 
 class ProfileScreen extends StatelessWidget {
@@ -11,6 +11,7 @@ class ProfileScreen extends StatelessWidget {
       appBar: AppBar(
         title: const Text("Profile"),
       ),
+      bottomNavigationBar: const NavBar(),
       body: ElevatedButton(
           child: const Text('signout'),
           onPressed: () async {

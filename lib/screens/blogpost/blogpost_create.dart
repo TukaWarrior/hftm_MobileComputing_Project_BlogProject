@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_blog/screens/shared/navigation_bar.dart';
 import 'package:image_picker/image_picker.dart';
 
 import 'package:flutter_blog/models/blogpost.dart';
@@ -84,7 +85,7 @@ class _BlogPostCreateScreenState extends State<BlogPostCreateScreen> {
       );
       // Save the blog post to Firestore
       await firestoreService.addBlogPost(newPost);
-      Navigator.of(context).pop(); // Optionally pop back to the previous screen
+      // Navigator.of(context).pop(); // Optionally pop back to the previous screen
     }
   }
 
@@ -92,8 +93,9 @@ class _BlogPostCreateScreenState extends State<BlogPostCreateScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Create Blog Post"),
+        title: const Text("Create Blog Post"),
       ),
+      bottomNavigationBar: const NavBar(),
       body: Form(
         key: _formKey,
         child: ListView(

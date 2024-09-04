@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_blog/screens/shared/navigation_bar.dart';
 
 class SensorsScreen extends StatefulWidget {
   const SensorsScreen({super.key});
@@ -57,6 +58,7 @@ class _SensorsScreenState extends State<SensorsScreen> {
       body: Center(
         child: Text(sensorInfo, style: const TextStyle(fontSize: 18)),
       ),
+      bottomNavigationBar: const NavBar(),
     );
   }
 }
