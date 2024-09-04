@@ -10,6 +10,8 @@ import 'package:flutter_blog/models/category.dart'; // Import the Category model
 import 'package:flutter_blog/services/firestore.dart';
 
 class BlogPostCreateScreen extends StatefulWidget {
+  const BlogPostCreateScreen({super.key});
+
   @override
   _BlogPostCreateScreenState createState() => _BlogPostCreateScreenState();
 }
@@ -18,7 +20,7 @@ class _BlogPostCreateScreenState extends State<BlogPostCreateScreen> {
   final _formKey = GlobalKey<FormState>();
   String _title = '';
   String _content = '';
-  String _category = '';
+  final String _category = '';
   File? _image;
 
   final picker = ImagePicker();
@@ -100,23 +102,23 @@ class _BlogPostCreateScreenState extends State<BlogPostCreateScreen> {
       body: Form(
         key: _formKey,
         child: ListView(
-          padding: EdgeInsets.all(8.0),
+          padding: const EdgeInsets.all(8.0),
           children: <Widget>[
             TextFormField(
-              decoration: InputDecoration(labelText: 'Title'),
+              decoration: const InputDecoration(labelText: 'Title'),
               onSaved: (value) => _title = value ?? '',
               validator: (value) => value!.isEmpty ? 'Title cannot be empty' : null,
             ),
             TextFormField(
-              decoration: InputDecoration(labelText: 'Content'),
+              decoration: const InputDecoration(labelText: 'Content'),
               onSaved: (value) => _content = value ?? '',
               validator: (value) => value!.isEmpty ? 'Content cannot be empty' : null,
             ),
-            SizedBox(height: 10),
+            const SizedBox(height: 10),
             _categories.isEmpty
-                ? CircularProgressIndicator() // Show loading indicator if categories are being fetched
+                ? const CircularProgressIndicator() // Show loading indicator if categories are being fetched
                 : DropdownButtonFormField<String>(
-                    decoration: InputDecoration(labelText: 'Category'),
+                    decoration: const InputDecoration(labelText: 'Category'),
                     value: _selectedCategory,
                     items: _categories.map((Category category) {
                       // Combine emoji and name in the dropdown menu items
@@ -133,19 +135,19 @@ class _BlogPostCreateScreenState extends State<BlogPostCreateScreen> {
                     },
                     validator: (value) => value == null || value.isEmpty ? 'Please select a category' : null,
                   ),
-            SizedBox(height: 10),
+            const SizedBox(height: 10),
             ElevatedButton(
               onPressed: _getImageFromCamera,
-              child: Text('Select Image from Camera'),
+              child: const Text('Select Image from Camera'),
             ),
             ElevatedButton(
               onPressed: _getImageFromGallery,
-              child: Text('Select Image from Gallery'),
+              child: const Text('Select Image from Gallery'),
             ),
             if (_image != null) Image.file(_image!),
             ElevatedButton(
               onPressed: _saveBlogPost,
-              child: Text('Submit Blog Post'),
+              child: const Text('Submit Blog Post'),
             ),
           ],
         ),

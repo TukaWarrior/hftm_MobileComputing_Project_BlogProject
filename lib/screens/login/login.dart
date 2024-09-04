@@ -37,18 +37,18 @@ class _LoginScreenState extends State<LoginScreen> {
                 children: [
                   TextFormField(
                     controller: _emailController,
-                    decoration: InputDecoration(labelText: 'Email'),
+                    decoration: const InputDecoration(labelText: 'Email'),
                     keyboardType: TextInputType.emailAddress,
                     validator: (value) => value!.isEmpty ? 'Please enter an email' : null,
                   ),
-                  SizedBox(height: 10),
+                  const SizedBox(height: 10),
                   TextFormField(
                     controller: _passwordController,
-                    decoration: InputDecoration(labelText: 'Password'),
+                    decoration: const InputDecoration(labelText: 'Password'),
                     obscureText: true,
                     validator: (value) => value!.isEmpty ? 'Please enter a password' : null,
                   ),
-                  SizedBox(height: 20),
+                  const SizedBox(height: 20),
                   LoginButton(
                     text: "Login with Email",
                     icon: Icons.email,
@@ -108,12 +108,12 @@ class _LoginScreenState extends State<LoginScreen> {
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: Text('Error'),
+        title: const Text('Error'),
         content: Text(message),
         actions: [
           TextButton(
             onPressed: () => Navigator.of(context).pop(),
-            child: Text('OK'),
+            child: const Text('OK'),
           ),
         ],
       ),
