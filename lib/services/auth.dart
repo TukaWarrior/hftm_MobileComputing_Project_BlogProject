@@ -9,7 +9,7 @@ class AuthService {
   Future<void> anonymousLogin() async {
     try {
       await FirebaseAuth.instance.signInAnonymously();
-    } on FirebaseAuthException catch (e) {
+    } on FirebaseAuthException {
       // Handle error
     }
   }
@@ -28,8 +28,35 @@ class AuthService {
         idToken: googleAuth.idToken,
       );
       await FirebaseAuth.instance.signInWithCredential(authCredential);
-    } on FirebaseAuthException catch (e) {
+    } on FirebaseAuthException {
       // Handle error
+    }
+  }
+
+  Future<void> emailLogin(String email, String password) async {
+    try {
+      await FirebaseAuth.instance.signInWithEmailAndPassword(email: email, password: password);
+    } on FirebaseAuthException catch (e) {
+      print('Error during email login: $e');
+      throw e; // Throw error to be handled by UI
+    }
+  }
+
+  Future<void> registerWithEmail(String email, String password) async {
+    try {
+      await FirebaseAuth.instance.createUserWithEmailAndPassword(email: email, password: password);
+    } on FirebaseAuthException catch (e) {
+      print('Error during registration: $e');
+      throw e; // Throw error to be handled by UI
+    }
+  }
+
+  Future<void> resetPassword(String email) async {
+    try {
+      await FirebaseAuth.instance.sendPasswordResetEmail(email: email);
+    } on FirebaseAuthException catch (e) {
+      print('Error sending password reset email: $e');
+      throw e; // Throw error to be handled by UI
     }
   }
 
