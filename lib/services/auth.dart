@@ -38,7 +38,7 @@ class AuthService {
       await FirebaseAuth.instance.signInWithEmailAndPassword(email: email, password: password);
     } on FirebaseAuthException catch (e) {
       print('Error during email login: $e');
-      throw e; // Throw error to be handled by UI
+      rethrow; // Throw error to be handled by UI
     }
   }
 
@@ -47,7 +47,7 @@ class AuthService {
       await FirebaseAuth.instance.createUserWithEmailAndPassword(email: email, password: password);
     } on FirebaseAuthException catch (e) {
       print('Error during registration: $e');
-      throw e; // Throw error to be handled by UI
+      rethrow; // Throw error to be handled by UI
     }
   }
 
@@ -56,7 +56,7 @@ class AuthService {
       await FirebaseAuth.instance.sendPasswordResetEmail(email: email);
     } on FirebaseAuthException catch (e) {
       print('Error sending password reset email: $e');
-      throw e; // Throw error to be handled by UI
+      rethrow; // Throw error to be handled by UI
     }
   }
 
