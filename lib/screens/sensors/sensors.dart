@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_blog/screens/sensors/sensordatacard.dart';
 import 'package:flutter_blog/screens/shared/navigation_bar.dart';
+import 'package:flutter_blog/services/sensors.dart';
 import 'package:sensors_plus/sensors_plus.dart';
 
 class SensorsScreen extends StatefulWidget {
@@ -10,72 +12,45 @@ class SensorsScreen extends StatefulWidget {
 }
 
 class _SensorsScreenState extends State<SensorsScreen> {
-  // Variables to store sensor data
-  double _accelerometerX = 0.0, _accelerometerY = 0.0, _accelerometerZ = 0.0;
-  double _gyroscopeX = 0.0, _gyroscopeY = 0.0, _gyroscopeZ = 0.0;
-  double _magnetometerX = 0.0, _magnetometerY = 0.0, _magnetometerZ = 0.0;
-
-  @override
-  void initState() {
-    super.initState();
-
-    // Listen to accelerometer data
-    accelerometerEvents.listen((AccelerometerEvent event) {
-      setState(() {
-        _accelerometerX = event.x;
-        _accelerometerY = event.y;
-        _accelerometerZ = event.z;
-      });
-    });
-
-    // Listen to gyroscope data
-    gyroscopeEvents.listen((GyroscopeEvent event) {
-      setState(() {
-        _gyroscopeX = event.x;
-        _gyroscopeY = event.y;
-        _gyroscopeZ = event.z;
-      });
-    });
-
-    // Listen to magnetometer data
-    magnetometerEvents.listen((MagnetometerEvent event) {
-      setState(() {
-        _magnetometerX = event.x;
-        _magnetometerY = event.y;
-        _magnetometerZ = event.z;
-      });
-    });
-  }
+  final AccelerometerSensor _accelerometerSensor = AccelerometerSensor();
+  final UserAccelerometerSensor _userAccelerometerSensor = UserAccelerometerSensor();
+  final GyroscopeSensor _gyroscopeSensor = GyroscopeSensor();
+  final MagnetometerSensor _magnetometerSensor = MagnetometerSensor();
+  final BarometerSensor _barometerSensor = BarometerSensor();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text("Sensor Data")),
-      backgroundColor: Colors.transparent,
+      appBar: AppBar(title: const Text("Sensor Data"), backgroundColor: Colors.transparent),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: ListView(
           children: [
-            _buildSensorDataCard(
-              'Accelerometer',
-              'Measures acceleration applied to the device, including the force of gravity.',
-              _accelerometerX,
-              _accelerometerY,
-              _accelerometerZ,
+            _buildSensorCard<AccelerometerEvent>(
+              stream: _accelerometerSensor.getAccelerometerStream(),
+              sensorName: 'Accelerometer',
+              description: 'Measures acceleration applied to the device, including the force of gravity.',
             ),
-            _buildSensorDataCard(
-              'Gyroscope',
-              'Measures the device’s rate of rotation around each of its three physical axes.',
-              _gyroscopeX,
-              _gyroscopeY,
-              _gyroscopeZ,
+            _buildSensorCard<UserAccelerometerEvent>(
+              stream: _userAccelerometerSensor.getUserAccelerometerStream(),
+              sensorName: 'User Accelerometer',
+              description: 'Measures acceleration applied to the device, excluding the force of gravity.',
             ),
-            _buildSensorDataCard(
-              'Magnetometer',
-              'Measures the ambient geomagnetic field for all three physical axes (x, y, z) in μT (micro-Tesla).',
-              _magnetometerX,
-              _magnetometerY,
-              _magnetometerZ,
+            _buildSensorCard<GyroscopeEvent>(
+              stream: _gyroscopeSensor.getGyroscopeStream(),
+              sensorName: 'Gyroscope',
+              description: 'Measures the device’s rate of rotation around each of its three physical axes.',
+            ),
+            _buildSensorCard<MagnetometerEvent>(
+              stream: _magnetometerSensor.getMagnetometerStream(),
+              sensorName: 'Magnetometer',
+              description: 'Measures the ambient geomagnetic field for all three physical axes (x, y, z) in μT (micro-Tesla).',
+            ),
+            _buildSensorCard<BarometerEvent>(
+              stream: _barometerSensor.getBarometerStream(),
+              sensorName: 'Barometer',
+              description: 'Measures the atmospheric pressure in hPa (hectopascal).',
+              isSingleValue: true,
             ),
           ],
         ),
@@ -84,33 +59,78 @@ class _SensorsScreenState extends State<SensorsScreen> {
     );
   }
 
-  // Widget to display sensor data
-  Widget _buildSensorDataCard(
-    String sensorName,
-    String description,
-    double x,
-    double y,
-    double z,
-  ) {
+  Widget _buildSensorCard<T>({
+    required Stream<T> stream,
+    required String sensorName,
+    required String description,
+    bool isSingleValue = false,
+  }) {
+    return StreamBuilder<T>(
+      stream: stream,
+      builder: (context, snapshot) {
+        if (snapshot.hasData) {
+          final data = snapshot.data!;
+
+          // Handle BarometerEvent separately
+          if (isSingleValue && data is BarometerEvent) {
+            return SensorDataCard(
+              sensorName: sensorName,
+              description: description,
+              value: data.pressure,
+            );
+          }
+          // Handle events with x, y, z values (AccelerometerEvent, GyroscopeEvent, MagnetometerEvent, UserAccelerometerEvent)
+          else if (data is AccelerometerEvent) {
+            return SensorDataCard(
+              sensorName: sensorName,
+              description: description,
+              x: data.x,
+              y: data.y,
+              z: data.z,
+            );
+          } else if (data is UserAccelerometerEvent) {
+            return SensorDataCard(
+              sensorName: sensorName,
+              description: description,
+              x: data.x,
+              y: data.y,
+              z: data.z,
+            );
+          } else if (data is GyroscopeEvent) {
+            return SensorDataCard(
+              sensorName: sensorName,
+              description: description,
+              x: data.x,
+              y: data.y,
+              z: data.z,
+            );
+          } else if (data is MagnetometerEvent) {
+            return SensorDataCard(
+              sensorName: sensorName,
+              description: description,
+              x: data.x,
+              y: data.y,
+              z: data.z,
+            );
+          }
+        }
+        return _buildLoadingSensorCard(sensorName);
+      },
+    );
+  }
+
+  // Widget to display loading card for sensors
+  Widget _buildLoadingSensorCard(String sensorName) {
     return Card(
       elevation: 4.0,
       margin: const EdgeInsets.symmetric(vertical: 10.0),
       child: Padding(
         padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              sensorName,
-              style: const TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold),
-            ),
-            const SizedBox(height: 8.0),
-            Text(description),
-            const SizedBox(height: 16.0),
-            Text('X: ${x.toStringAsFixed(2)}'),
-            Text('Y: ${y.toStringAsFixed(2)}'),
-            Text('Z: ${z.toStringAsFixed(2)}'),
-          ],
+        child: Center(
+          child: Text(
+            'Loading $sensorName data...',
+            style: const TextStyle(fontSize: 18.0),
+          ),
         ),
       ),
     );
