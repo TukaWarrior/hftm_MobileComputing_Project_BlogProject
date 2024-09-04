@@ -11,6 +11,32 @@ class _NavBarState extends State<NavBar> {
   int selectedIndex = 0;
 
   @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    // Determine the current route and update the selectedIndex once. Unfortunately, the navbar does rebuild every time the route is changed, which causes it to loose the selected index.
+    String? currentRoute = ModalRoute.of(context)?.settings.name;
+    switch (currentRoute) {
+      case '/':
+        selectedIndex = 0;
+        break;
+      case '/blognew':
+        selectedIndex = 1;
+        break;
+      case '/sensors':
+        selectedIndex = 2;
+        break;
+      case '/profile':
+        selectedIndex = 3;
+        break;
+      case '/blogpost':
+        selectedIndex = 4;
+        break;
+      default:
+        selectedIndex = 0; // Default to home if route is not found
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Container(
       height: 64.0,
@@ -27,27 +53,33 @@ class _NavBarState extends State<NavBar> {
           ],
           selectedIndex: selectedIndex,
           onDestinationSelected: (int index) {
-            setState(() {
-              selectedIndex = index;
-              // Add navigation logic based on index
+            // Update the selected index and navigate
+            if (selectedIndex != index) {
+              setState(() {
+                selectedIndex = index;
+              });
+
+              // Check if the current route is different from the selected one
               switch (index) {
                 case 0:
-                  Navigator.pushReplacementNamed(context, '/');
+                  Navigator.pushNamedAndRemoveUntil(context, '/', (route) => false);
                   break;
                 case 1:
-                  Navigator.pushReplacementNamed(context, '/blognew');
+                  Navigator.pushNamedAndRemoveUntil(context, '/blognew', (route) => false); // Remove all previous routes
                   break;
                 case 2:
-                  Navigator.pushReplacementNamed(context, '/sensors');
+                  Navigator.pushNamedAndRemoveUntil(context, '/sensors', (route) => false);
                   break;
                 case 3:
-                  Navigator.pushReplacementNamed(context, '/profile');
+                  Navigator.pushNamedAndRemoveUntil(context, '/profile', (route) => false);
                   break;
                 case 4:
-                  Navigator.pushReplacementNamed(context, '/blogpost');
+                  Navigator.pushNamedAndRemoveUntil(context, '/blogpost', (route) => false);
                   break;
+                default:
+                  Navigator.pushNamedAndRemoveUntil(context, '/', (route) => false);
               }
-            });
+            }
           },
           indicatorColor: Colors.transparent,
           backgroundColor: Colors.grey.withOpacity(0.25),

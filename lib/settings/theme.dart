@@ -34,7 +34,7 @@ final ThemeData darkTheme = ThemeData(
   useMaterial3: true,
   brightness: Brightness.dark,
   colorScheme: ColorScheme.fromSeed(seedColor: Colors.cyanAccent, brightness: Brightness.dark),
-  scaffoldBackgroundColor: Color(0xFF353645), // Set the background color here
+  scaffoldBackgroundColor: const Color(0xFF353645), // Set the background color here
   // scaffoldBackgroundColor: const ColorScheme.dark().surfaceContainerHighest,
   fontFamily: "Mulish",
   appBarTheme: AppBarTheme(
@@ -52,9 +52,9 @@ final ThemeData darkTheme = ThemeData(
     backgroundColor: const Color(0xFF30333c), // Darker background for dark theme
     labelTextStyle: WidgetStateProperty.resolveWith<TextStyle>((Set<WidgetState> states) {
       if (states.contains(WidgetState.selected)) {
-        return const TextStyle(color: Color(0xFF9c9fa8)); // Text color when selected
+        return const TextStyle(color: Color.fromARGB(255, 202, 206, 218)); // Text color when selected
       }
-      return const TextStyle(color: Color(0xFF5e6169)); // Text color when not selected
+      return const TextStyle(color: Color.fromARGB(255, 118, 122, 133)); // Text color when not selected
     }),
     iconTheme: WidgetStateProperty.resolveWith<IconThemeData>((Set<WidgetState> states) {
       if (states.contains(WidgetState.selected)) {
