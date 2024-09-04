@@ -8,7 +8,7 @@ import 'package:flutter_blog/screens/sensors/sensors.dart';
 var appRoutes = {
   '/': (context) => const HomeScreen(),
   '/login': (context) => const LoginScreen(),
-  '/blognew': (context) => BlogPostCreateScreen(),
+  '/blognew': (context) => const BlogPostCreateScreen(),
   '/sensors': (context) => const SensorsScreen(),
   '/profile': (context) => const ProfileScreen(),
   '/blogpost': (context) => const BlogPostScreen(),
