@@ -8,11 +8,6 @@ class BlogPost {
   final String title;
   final String content;
   final String category;
-  // Use custom converter for Timestamp
-  // @JsonKey(
-  //   fromJson: _fromJsonTimestamp,
-  //   toJson: _toJsonTimestamp,
-  // )
   @JsonKey(
     fromJson: _fromJsonDateTime,
     toJson: _toJsonDateTime,
