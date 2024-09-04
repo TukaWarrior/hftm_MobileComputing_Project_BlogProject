@@ -1,10 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:json_annotation/json_annotation.dart';
 
-part 'user.g.dart';
+part 'profile.g.dart';
 
 @JsonSerializable()
-class User {
+class Profile {
   final String displayName;
   final String description;
   final String email;
@@ -15,7 +15,7 @@ class User {
   )
   final DateTime? createdDate;
 
-  User({
+  Profile({
     this.displayName = '',
     this.description = '',
     this.email = '',
@@ -33,8 +33,8 @@ class User {
     return dateTime != null ? Timestamp.fromDate(dateTime) : null;
   }
 
-  factory User.fromJson(Map<String, dynamic> json) => _$UserFromJson(json);
-  Map<String, dynamic> toJson() => _$UserToJson(this);
+  factory Profile.fromJson(Map<String, dynamic> json) => _$ProfileFromJson(json);
+  Map<String, dynamic> toJson() => _$ProfileToJson(this);
 }
 
 // Run 'flutter pub run build_runner build' to create JsonSerializable. 

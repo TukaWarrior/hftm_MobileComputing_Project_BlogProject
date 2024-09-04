@@ -1,16 +1,18 @@
 import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter_blog/models/blogpost.dart';
 import 'package:flutter_blog/models/category.dart';
-
+import 'package:flutter_blog/models/profile.dart';
 // firestore.dart handles the data fetching from the firestore database.
 
 class FirestoreService {
   final FirebaseFirestore _db = FirebaseFirestore.instance;
   final FirebaseStorage _storage = FirebaseStorage.instance;
 
+  // ------------------ Blog Posts ------------------
   Future<List<BlogPost>> getAllBlogPosts() async {
     var ref = _db.collection('blogposts');
     var snapshot = await ref.get();
@@ -25,6 +27,12 @@ class FirestoreService {
     return BlogPost.fromJson(snapshot.data() ?? {});
   }
 
+  // AI Generated
+  Future<void> addBlogPost(BlogPost blogPost) async {
+    await _db.collection('blogposts').add(blogPost.toJson());
+  }
+
+  // ------------------ Categories ------------------
   Future<List<Category>> getAllCategories() async {
     var ref = _db.collection('categories');
     var snapshot = await ref.get();
@@ -39,6 +47,7 @@ class FirestoreService {
     return Category.fromJson(snapshot.data() ?? {});
   }
 
+  // ------------------ Image Upload ------------------
   // AI Generated
   Future<String> uploadImage(File file, String path) async {
     try {
@@ -53,8 +62,32 @@ class FirestoreService {
     }
   }
 
-  // AI Generated
-  Future<void> addBlogPost(BlogPost blogPost) async {
-    await _db.collection('blogposts').add(blogPost.toJson());
+// ------------------ User Profiles ------------------
+  Future<void> createOrUpdateUserProfile(Profile profileData) async {
+    final profile = FirebaseAuth.instance.currentUser;
+    if (profile != null) {
+      final profileRef = _db.collection('profiles').doc(profile.uid);
+      await profileRef.set(profileData.toJson(), SetOptions(merge: true));
+    }
+  }
+
+  Future<Profile> getUserProfile() async {
+    final currentUser = FirebaseAuth.instance.currentUser;
+    if (currentUser != null) {
+      final userDoc = await _db.collection('profiles').doc(currentUser.uid).get();
+      if (userDoc.exists) {
+        return Profile.fromJson(userDoc.data()!);
+      }
+    }
+    return;
+  }
+
+  Future<bool> checkUserProfileExists() async {
+    final currentUser = FirebaseAuth.instance.currentUser;
+    if (currentUser != null) {
+      final userDoc = await _db.collection('profiles').doc(currentUser.uid).get();
+      return userDoc.exists;
+    }
+    return false;
   }
 }
