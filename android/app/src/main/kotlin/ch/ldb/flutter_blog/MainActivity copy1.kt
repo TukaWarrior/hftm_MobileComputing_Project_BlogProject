@@ -43,23 +43,21 @@ class MainActivity : FlutterActivity() {
                 "vendor" to it.vendor,
                 "version" to it.version,
                 "power" to it.power,
-                "resolution" to (it.resolution ?: "N/A"),  // Safely handle null resolution
-                "maxRange" to (it.maximumRange ?: "N/A"),  // Safely handle null maxRange
+                "resolution" to it.resolution,
+                "maxRange" to it.maximumRange,
                 "minDelay" to it.minDelay
             )
         }
     }
 
-    private fun getAvailableSensors(): List<Map<String, Any>> { // Change List type to Map<String, Any>
+    private fun getAvailableSensors(): List<Map<String, String>> {
         val sensorManager = getSystemService(SENSOR_SERVICE) as SensorManager
         val sensorList = sensorManager.getSensorList(Sensor.TYPE_ALL)
         return sensorList.map { sensor ->
             mapOf(
                 "name" to sensor.name,
                 "vendor" to sensor.vendor,
-                "type" to sensor.type.toString(),
-                "resolution" to (sensor.resolution ?: "N/A"), // Safely handle null resolution
-                "maxRange" to (sensor.maximumRange ?: "N/A")  // Safely handle null maxRange
+                "type" to sensor.type.toString()
             )
         }
     }
