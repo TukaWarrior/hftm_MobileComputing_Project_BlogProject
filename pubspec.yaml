@@ -39,8 +39,6 @@ dependencies:
   provider: ^6.1.2
   json_annotation: ^4.9.0
   rxdart: ^0.28.0 # Extends capabilities of Streams and Stream controllers. 
-  intl: ^0.19.0 # Converts datetime formats. 
-  http: ^1.2.2
   sensors_plus: ^6.0.1
   image_picker: ^1.1.2
   font_awesome_flutter: ^10.7.0
