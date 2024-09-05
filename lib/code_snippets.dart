@@ -29,3 +29,15 @@
 // Custom Animation Needs: You want to animate transitions between pages or components for a more polished user experience.
 // Advanced Navigation Control: Each tab in a bottom navigation bar needs its own navigation history, allowing users to go back within the context of the selected tab.
 // Complex Back Navigation: You need fine control over the back button behavior, like preventing accidental exits or managing nested navigators.
+
+
+// This in appbar for settigns button
+// actions: [
+//                   IconButton(
+//                     icon: const Icon(Icons.settings), // Cogwheel icon
+//                     onPressed: () {
+//                       // Navigate to the settings page or perform any action
+//                       print('Settings button pressed');
+//                     },
+//                   ),
+//                 ],
