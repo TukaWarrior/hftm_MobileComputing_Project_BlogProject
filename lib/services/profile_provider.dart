@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_blog/models/profile.dart';
+import 'package:flutter_blog/services/auth.dart';
 import 'package:flutter_blog/services/firestore.dart';
 
 class ProfileProvider with ChangeNotifier {
@@ -10,6 +11,7 @@ class ProfileProvider with ChangeNotifier {
 
   Future<void> fetchUserProfile() async {
     try {
+      var user = AuthService().user;
       final fetchedProfile = await _firestoreService.getProfile();
       if (fetchedProfile != null) {
         _profile = fetchedProfile;
@@ -19,7 +21,7 @@ class ProfileProvider with ChangeNotifier {
         final newProfile = Profile(
           displayName: 'New User',
           description: 'New Description',
-          email: _firestoreService.user!.email ?? '', // Or get email from auth service
+          email: user!.email ?? '', // Or get email from auth service
           avatarURL: '',
           createdDate: DateTime.now(),
         );
@@ -40,5 +42,10 @@ class ProfileProvider with ChangeNotifier {
     } catch (e) {
       throw Exception('Failed to update user profile: $e');
     }
+  }
+
+  void clearProfile() {
+    _profile = null;
+    notifyListeners(); // Notify listeners to clear the UI
   }
 }

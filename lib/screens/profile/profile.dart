@@ -94,15 +94,16 @@ class ProfileScreen extends StatelessWidget {
     );
   }
 
-  // Method to build the Sign Out button
   Widget _buildSignOutButton(BuildContext context) {
     return ElevatedButton.icon(
       icon: const Icon(Icons.logout),
       label: const Text('Sign Out'),
       onPressed: () async {
-        final navigator = Navigator.of(context);
+        // Sign out the user
         await AuthService().signOut();
-        navigator.pushNamedAndRemoveUntil('/', (route) => false);
+        // Clear the profile data in the ProfileProvider
+        Provider.of<ProfileProvider>(context, listen: false).clearProfile();
+        Navigator.pushNamedAndRemoveUntil(context, '/', (route) => false);
       },
       style: ElevatedButton.styleFrom(
         backgroundColor: Colors.red,

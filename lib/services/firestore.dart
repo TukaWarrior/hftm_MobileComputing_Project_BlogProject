@@ -12,7 +12,6 @@ import 'package:flutter_blog/services/auth.dart';
 class FirestoreService {
   final FirebaseFirestore _db = FirebaseFirestore.instance;
   final FirebaseStorage _storage = FirebaseStorage.instance;
-  var user = AuthService().user;
 
   // ------------------ Blog Posts ------------------
   Future<List<BlogPost>> getAllBlogPosts() async {
@@ -127,8 +126,8 @@ class FirestoreService {
 
 // ------------------ User Profiles ------------------
   Future<void> createOrUpdateProfile(Profile profile) async {
-    print('Creating or updating profile');
     try {
+      var user = AuthService().user;
       if (user != null) {
         final profileRef = _db.collection('profiles').doc(user!.uid);
         await profileRef.set(profile.toJson(), SetOptions(merge: true));
@@ -143,8 +142,8 @@ class FirestoreService {
   }
 
   Future<Profile?> getProfile() async {
-    print('Getting prfile');
     try {
+      var user = AuthService().user;
       if (user == null) {
         return null;
       }

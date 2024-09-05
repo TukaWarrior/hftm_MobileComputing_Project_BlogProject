@@ -29,6 +29,16 @@ class BlogPostItem extends StatelessWidget {
                 height: 200,
                 fit: BoxFit.cover,
                 width: double.infinity,
+                loadingBuilder: (context, child, loadingProgress) {
+                  if (loadingProgress == null || (loadingProgress.cumulativeBytesLoaded == loadingProgress.expectedTotalBytes)) {
+                    return child; // Display the image if loaded successfully
+                  } else {
+                    return const SizedBox.shrink(); // Leave out the image if it fails to load
+                  }
+                },
+                errorBuilder: (context, error, stackTrace) {
+                  return const SizedBox.shrink(); // Leave out the image if there is an error
+                },
               ),
             Padding(
               padding: const EdgeInsets.all(10),
