@@ -90,7 +90,7 @@ class FirestoreService {
     }
   }
 
-  // ------------------ Image Upload ------------------
+  // ------------------ Image Upload (Blogpost) ------------------
   Future<String> uploadImage(File file, String path) async {
     try {
       Reference ref = _storage.ref().child('$path/${DateTime.now().toIso8601String()}');
@@ -99,27 +99,51 @@ class FirestoreService {
       String downloadUrl = await snapshot.ref.getDownloadURL();
       return downloadUrl;
     } on FirebaseException catch (e) {
+      print('FirebaseException while uploading image: ${e.message}');
       throw Exception('An error occurred during the Firebase operation: ${e.message}');
     } catch (e) {
+      print('Error while uploading image: $e');
       throw Exception('Failed to upload image: $e');
+    }
+  }
+
+  // ------------------ Avatar Image Upload ------------------
+  Future<String> uploadAvatarImage(File file, String userId) async {
+    try {
+      // Use the user's UID as the file name
+      Reference ref = _storage.ref().child('profile_avatars/$userId');
+      UploadTask uploadTask = ref.putFile(file);
+      TaskSnapshot snapshot = await uploadTask;
+      String downloadUrl = await snapshot.ref.getDownloadURL();
+      return downloadUrl;
+    } on FirebaseException catch (e) {
+      print('FirebaseException while uploading avatar image: ${e.message}');
+      throw Exception('An error occurred during the Firebase operation: ${e.message}');
+    } catch (e) {
+      print('Error while uploading avatar image: $e');
+      throw Exception('Failed to upload avatar image: $e');
     }
   }
 
 // ------------------ User Profiles ------------------
   Future<void> createOrUpdateProfile(Profile profile) async {
+    print('Creating or updating profile');
     try {
       if (user != null) {
         final profileRef = _db.collection('profiles').doc(user!.uid);
         await profileRef.set(profile.toJson(), SetOptions(merge: true));
       }
     } on FirebaseException catch (e) {
+      print('FirebaseException while creating/updating profile: ${e.message}');
       throw Exception('An error occurred during the Firebase operation: ${e.message}');
     } catch (e) {
+      print('Error while creating/updating profile: $e');
       throw Exception('Failed to create or update profile: $e');
     }
   }
 
   Future<Profile?> getProfile() async {
+    print('Getting prfile');
     try {
       if (user == null) {
         return null;
@@ -130,9 +154,27 @@ class FirestoreService {
       }
       return null;
     } on FirebaseException catch (e) {
+      print('FirebaseException while fetching profile: ${e.message}');
       throw Exception('An error occurred during the Firebase operation: ${e.message}');
     } catch (e) {
+      print('Error while fetching profile: $e');
       throw Exception('Failed to fetch profile: $e');
+    }
+  }
+
+  Future<Profile?> getProfileByUID(String uid) async {
+    try {
+      final userDoc = await _db.collection('profiles').doc(uid).get();
+      if (userDoc.exists) {
+        return Profile.fromJson(userDoc.data()!);
+      }
+      return null;
+    } on FirebaseException catch (e) {
+      print('FirebaseException while fetching profile by UID: ${e.message}');
+      throw Exception('An error occurred during the Firebase operation: ${e.message}');
+    } catch (e) {
+      print('Error while fetching profile by UID: $e');
+      throw Exception('Failed to fetch profile by UID: $e');
     }
   }
 }
