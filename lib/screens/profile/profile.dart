@@ -1,25 +1,13 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_blog/models/profile.dart';
 import 'package:flutter_blog/screens/profile/profile_edit.dart';
 import 'package:flutter_blog/screens/shared/navigation_bar.dart';
 import 'package:flutter_blog/services/auth.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter_blog/services/profile_provider.dart';
+import 'package:provider/provider.dart'; // Import provider
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
-
-  // Fetch the current user's profile from Firestore
-  Future<Profile?> _getCurrentUserProfile() async {
-    final currentUser = FirebaseAuth.instance.currentUser;
-    if (currentUser != null) {
-      final userDoc = await FirebaseFirestore.instance.collection('users').doc(currentUser.uid).get();
-      if (userDoc.exists) {
-        return Profile.fromJson(userDoc.data()!);
-      }
-    }
-    return null;
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -29,57 +17,49 @@ class ProfileScreen extends StatelessWidget {
         backgroundColor: Colors.transparent,
       ),
       bottomNavigationBar: const NavBar(),
-      body: Column(
-        children: [
-          FutureBuilder<Profile?>(
-            future: _getCurrentUserProfile(),
-            builder: (context, snapshot) {
-              if (snapshot.connectionState == ConnectionState.waiting) {
-                return const Center(child: CircularProgressIndicator());
-              } else if (snapshot.hasError) {
-                return _buildErrorState('Error loading profile.');
-              } else if (snapshot.hasData && snapshot.data != null) {
-                return _buildProfileView(context, snapshot.data!);
-              } else {
-                return _buildErrorState('No profile data found.');
-              }
-            },
-          ),
-          ElevatedButton(
-              child: const Text('signout'),
-              onPressed: () async {
-                final navigator = Navigator.of(context);
-                await AuthService().signOut();
-                // Navigator.of(context).pushNamedAndRemoveUntil('/', (route) => false);
-                navigator.pushNamedAndRemoveUntil('/', (route) => false);
-              }),
-        ],
-      ),
-    );
-  }
+      body: Consumer<ProfileProvider>(
+        // Use Consumer to listen to ProfileProvider
+        builder: (context, profileProvider, child) {
+          final userProfile = profileProvider.profile; // Access the profile from provider
 
-  // Method to build the profile view
-  Widget _buildProfileView(BuildContext context, Profile user) {
-    return Padding(
-      padding: const EdgeInsets.all(16.0),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Center(
-            child: CircleAvatar(
-              radius: 50,
-              backgroundImage: user.avatarURL.isNotEmpty ? NetworkImage(user.avatarURL) : null,
-              child: user.avatarURL.isEmpty ? const Icon(Icons.person, size: 50) : null,
+          if (userProfile == null) {
+            // If the profile is still being fetched or does not exist, show loading or error
+            return const Center(child: CircularProgressIndicator());
+          }
+
+          // If the profile is loaded successfully, show the profile view
+          return Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Center(
+                  child: userProfile.avatarURL.isNotEmpty
+                      ? ClipOval(
+                          // Clip the image to make it circular
+                          child: Image.network(
+                            userProfile.avatarURL,
+                            height: 100, // Adjust height and width for a circular avatar
+                            width: 100,
+                            fit: BoxFit.cover,
+                          ),
+                        )
+                      : const CircleAvatar(
+                          radius: 50,
+                          child: Icon(Icons.person, size: 50),
+                        ),
+                ),
+                const SizedBox(height: 20),
+                _buildProfileField('Name', userProfile.displayName, context),
+                _buildProfileField('Email', userProfile.email, context),
+                _buildProfileField('Description', userProfile.description, context),
+                const SizedBox(height: 20),
+                _buildEditButton(context, userProfile, profileProvider), // Pass profileProvider to refresh profile after editing
+                _buildSignOutButton(context),
+              ],
             ),
-          ),
-          const SizedBox(height: 20),
-          _buildProfileField('Name', user.displayName, context),
-          _buildProfileField('Email', user.email, context),
-          _buildProfileField('Description', user.description, context),
-          const SizedBox(height: 20),
-          _buildEditButton(context, user),
-          _buildSignOutButton(context),
-        ],
+          );
+        },
       ),
     );
   }
@@ -98,15 +78,18 @@ class ProfileScreen extends StatelessWidget {
   }
 
   // Method to build the Edit Profile button
-  Widget _buildEditButton(BuildContext context, Profile user) {
+  Widget _buildEditButton(BuildContext context, Profile user, ProfileProvider profileProvider) {
     return ElevatedButton.icon(
       icon: const Icon(Icons.edit),
       label: const Text('Edit Profile'),
-      onPressed: () {
-        Navigator.push(
+      onPressed: () async {
+        await Navigator.push(
           context,
           MaterialPageRoute(builder: (context) => EditProfileScreen(user: user)),
         );
+
+        // Refresh the profile after returning from the EditProfileScreen
+        profileProvider.fetchUserProfile();
       },
     );
   }
@@ -123,16 +106,6 @@ class ProfileScreen extends StatelessWidget {
       },
       style: ElevatedButton.styleFrom(
         backgroundColor: Colors.red,
-      ),
-    );
-  }
-
-  // Method to build the error state UI
-  Widget _buildErrorState(String message) {
-    return Center(
-      child: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Text(message, style: const TextStyle(color: Colors.red, fontSize: 18)),
       ),
     );
   }
