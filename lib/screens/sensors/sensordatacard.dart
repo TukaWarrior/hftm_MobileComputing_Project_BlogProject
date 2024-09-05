@@ -9,14 +9,14 @@ class SensorDataCard extends StatelessWidget {
   final double? value;
 
   const SensorDataCard({
-    Key? key,
+    super.key,
     required this.sensorName,
     required this.description,
     this.x,
     this.y,
     this.z,
     this.value,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

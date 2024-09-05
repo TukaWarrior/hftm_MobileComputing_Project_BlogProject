@@ -69,7 +69,7 @@ class _SensorsScreenState extends State<SensorsScreen> {
       stream: stream,
       builder: (context, snapshot) {
         if (snapshot.hasData) {
-          final data = snapshot.data!;
+          final data = snapshot.data as T;
 
           // Handle BarometerEvent separately
           if (isSingleValue && data is BarometerEvent) {
