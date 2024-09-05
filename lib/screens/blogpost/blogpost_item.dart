@@ -10,6 +10,7 @@ class BlogPostItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
+      // margin: EdgeInsets.all(10),
       clipBehavior: Clip.antiAlias,
       child: InkWell(
         onTap: () {
