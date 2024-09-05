@@ -25,7 +25,20 @@ class BlogPostScreen extends StatelessWidget {
 
             return Scaffold(
               appBar: AppBar(
-                title: const Text('Blogposts'),
+                // title: const Text('Blogposts'),
+                title: const Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Text(
+                      "Most recent ",
+                      // style: TextTheme(displayLarge),
+                    ),
+                    Text(
+                      "Blogs",
+                      style: TextStyle(fontSize: 22, color: Colors.blue),
+                    ),
+                  ],
+                ),
                 backgroundColor: Colors.transparent,
               ),
               body: ListView(
