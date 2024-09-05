@@ -1,4 +1,5 @@
 import 'dart:io';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_blog/screens/shared/navigation_bar.dart';
@@ -101,77 +102,13 @@ class _BlogPostCreateScreenState extends State<BlogPostCreateScreen> {
       body: Form(
         key: _formKey,
         child: ListView(
-          padding: const EdgeInsets.all(16.0), // Consistent padding for the ListView
+          padding: const EdgeInsets.all(8.0),
           children: <Widget>[
-            // Image preview card
-            GestureDetector(
-              onTap: _getImageFromGallery, // Tap to pick image
-              child: Container(
-                height: 240,
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(6),
-                ),
-                child: _image != null
-                    ? ClipRRect(
-                        borderRadius: BorderRadius.circular(16),
-                        child: Image.file(
-                          _image!,
-                          fit: BoxFit.cover,
-                        ),
-                      )
-                    : Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: const [
-                          Icon(
-                            Icons.add_a_photo,
-                            color: Colors.black45,
-                          ),
-                          SizedBox(height: 8),
-                          Text('Add an image'),
-                        ],
-                      ),
-              ),
-            ),
-            const SizedBox(height: 10),
-            // Buttons for image selection
-            Row(
-              children: [
-                Expanded(
-                  child: ElevatedButton(
-                    onPressed: _getImageFromCamera,
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.grey[400], // Grey color
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(8), // Rounded corners
-                      ),
-                    ),
-                    child: const Text('Camera'),
-                  ),
-                ),
-                const SizedBox(width: 10),
-                Expanded(
-                  child: ElevatedButton(
-                    onPressed: _getImageFromGallery,
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.grey[400], // Grey color
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(8), // Rounded corners
-                      ),
-                    ),
-                    child: const Text('Gallery'),
-                  ),
-                ),
-              ],
-            ),
-            const SizedBox(height: 20),
-            // Form fields for title, content, and category selection
             TextFormField(
               decoration: const InputDecoration(labelText: 'Title'),
               onSaved: (value) => _title = value ?? '',
               validator: (value) => value!.isEmpty ? 'Title cannot be empty' : null,
             ),
-            const SizedBox(height: 10),
             TextFormField(
               decoration: const InputDecoration(labelText: 'Content'),
               onSaved: (value) => _content = value ?? '',
@@ -198,7 +135,16 @@ class _BlogPostCreateScreenState extends State<BlogPostCreateScreen> {
                     },
                     validator: (value) => value == null || value.isEmpty ? 'Please select a category' : null,
                   ),
-            const SizedBox(height: 20),
+            const SizedBox(height: 10),
+            ElevatedButton(
+              onPressed: _getImageFromCamera,
+              child: const Text('Select Image from Camera'),
+            ),
+            ElevatedButton(
+              onPressed: _getImageFromGallery,
+              child: const Text('Select Image from Gallery'),
+            ),
+            if (_image != null) Image.file(_image!),
             ElevatedButton(
               onPressed: _saveBlogPost,
               child: const Text('Submit Blog Post'),
