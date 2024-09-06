@@ -39,13 +39,13 @@ class ProfileScreen extends StatelessWidget {
                           // Clip the image to make it circular
                           child: Image.network(
                             userProfile.avatarURL,
-                            height: 100, // Adjust height and width for a circular avatar
-                            width: 100,
+                            height: 200, // Adjust height and width for a circular avatar
+                            width: 200,
                             fit: BoxFit.cover,
                           ),
                         )
                       : const CircleAvatar(
-                          radius: 50,
+                          radius: 200,
                           child: Icon(Icons.person, size: 50),
                         ),
                 ),
