@@ -7,6 +7,7 @@ part of 'blogpost.dart';
 // **************************************************************************
 
 BlogPost _$BlogPostFromJson(Map<String, dynamic> json) => BlogPost(
+      documentID: json['documentID'] as String? ?? '',
       title: json['title'] as String? ?? '',
       content: json['content'] as String? ?? '',
       category: json['category'] as String? ?? '',
@@ -17,6 +18,7 @@ BlogPost _$BlogPostFromJson(Map<String, dynamic> json) => BlogPost(
     );
 
 Map<String, dynamic> _$BlogPostToJson(BlogPost instance) => <String, dynamic>{
+      'documentID': instance.documentID,
       'title': instance.title,
       'content': instance.content,
       'category': instance.category,
