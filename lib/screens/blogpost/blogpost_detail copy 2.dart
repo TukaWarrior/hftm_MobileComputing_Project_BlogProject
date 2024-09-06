@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_blog/models/blogpost.dart';
 import 'package:flutter_blog/models/profile.dart';
 import 'package:flutter_blog/screens/blogpost/blogpost_delete.dart';
-import 'package:flutter_blog/screens/blogpost/blogpost_edit_dialog.dart'; // Import the new file
 import 'package:flutter_blog/services/firestore.dart';
 import 'package:flutter_blog/services/profile_provider.dart';
 import 'package:provider/provider.dart';
@@ -43,16 +42,11 @@ class BlogPostDetailScreen extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         actions: [
-          if (currentUserProfile != null && currentUserProfile.documentID == blogpost.userUID) ...[
-            IconButton(
-              icon: Icon(Icons.edit),
-              onPressed: () => _showEditDialog(context), // Show edit dialog
-            ),
+          if (currentUserProfile != null && currentUserProfile.documentID == blogpost.userUID)
             IconButton(
               icon: Icon(Icons.delete),
               onPressed: () => BlogPostDelete.showDeleteDialog(context, blogpost), // Use the extracted function
             ),
-          ],
         ],
       ),
       body: ListView(children: [
@@ -147,13 +141,6 @@ class BlogPostDetailScreen extends StatelessWidget {
           ),
         ),
       ]),
-    );
-  }
-
-  void _showEditDialog(BuildContext context) {
-    showDialog(
-      context: context,
-      builder: (context) => BlogPostEditDialog(blogpost: blogpost), // Open edit dialog
     );
   }
 }
