@@ -5,6 +5,7 @@ part 'profile.g.dart';
 
 @JsonSerializable()
 class Profile {
+  final String documentID;
   final String displayName;
   final String description;
   final String email;
@@ -16,12 +17,25 @@ class Profile {
   final DateTime? createdDate;
 
   Profile({
+    this.documentID = '',
     this.displayName = '',
     this.description = '',
     this.email = '',
     this.avatarURL = '',
     this.createdDate,
   });
+
+  // Constructor to create Profile from Firestore DocumentSnapshot
+  factory Profile.fromDocument(DocumentSnapshot doc) {
+    final data = doc.data() as Map<String, dynamic>;
+    return Profile(
+      documentID: doc.id,
+      displayName: data['displayName'] ?? '',
+      description: data['description'] ?? '',
+      email: data['email'] ?? '',
+      avatarURL: data['avatarURL'] ?? '',
+    );
+  }
 
   // Custom fromJson for Timestamp -> DateTime
   static DateTime? _fromJsonDateTime(dynamic value) {
