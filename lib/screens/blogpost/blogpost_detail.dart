@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_blog/models/blogpost.dart';
 import 'package:flutter_blog/models/profile.dart';
 import 'package:flutter_blog/services/firestore.dart';
+import 'package:flutter_blog/services/profile_provider.dart';
+import 'package:provider/provider.dart';
 
 class BlogPostDetailScreen extends StatelessWidget {
   final BlogPost blogpost;
@@ -34,9 +36,17 @@ class BlogPostDetailScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final currentUserProfile = Provider.of<ProfileProvider>(context).profile;
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.transparent,
+        actions: [
+          if (currentUserProfile != null && currentUserProfile.documentID == blogpost.userUID)
+            IconButton(
+              icon: Icon(Icons.delete),
+              onPressed: () => _confirmDelete(context),
+            ),
+        ],
       ),
       body: ListView(children: [
         Hero(
@@ -148,5 +158,49 @@ class BlogPostDetailScreen extends StatelessWidget {
         )
       ]),
     );
+  }
+
+  // Confirm delete dialog
+  Future<void> _confirmDelete(BuildContext context) async {
+    final shouldDelete = await showDialog<bool>(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text('Delete Blog Post'),
+        content: Text('Are you sure you want to delete this blog post?'),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(context).pop(false), // Cancel delete
+            child: Text('Cancel'),
+          ),
+          TextButton(
+            onPressed: () => Navigator.of(context).pop(true), // Confirm delete
+            child: Text('Delete'),
+          ),
+        ],
+      ),
+    );
+
+    if (shouldDelete == true) {
+      _deleteBlogPost(context);
+    }
+  }
+
+  // Delete blog post function
+  Future<void> _deleteBlogPost(BuildContext context) async {
+    try {
+      if (blogpost.imageURL.isNotEmpty) {
+        await FirestoreService().deleteImageFromStorage(blogpost.imageURL);
+      }
+
+      await FirestoreService().deleteBlogPost(blogpost.documentID);
+      Navigator.of(context).pop(); // Go back after deletion
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Blog post deleted successfully!')),
+      );
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Failed to delete blog post: $e')),
+      );
+    }
   }
 }
