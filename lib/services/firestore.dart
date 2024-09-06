@@ -121,6 +121,18 @@ class FirestoreService {
     }
   }
 
+  Future<void> deleteImageFromStorage(String imageURL) async {
+    try {
+      // Create a reference to the file to delete
+      final ref = _storage.refFromURL(imageURL);
+      await ref.delete();
+    } on FirebaseException catch (e) {
+      throw Exception('An error occurred during the Firebase operation: ${e.message}');
+    } catch (e) {
+      throw Exception('Failed to delete image: $e');
+    }
+  }
+
   // ------------------ Avatar Image Upload ------------------
   Future<String> uploadAvatarImage(File file, String userId) async {
     try {
