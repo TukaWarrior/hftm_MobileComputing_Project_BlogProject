@@ -21,9 +21,6 @@ class FirestoreService {
       if (snapshot.docs.isEmpty) {
         return [];
       }
-      // var data = snapshot.docs.map((s) => s.data());
-      // var blogposts = data.map((d) => BlogPost.fromJson(d));
-      // return blogposts.toList();
       return snapshot.docs.map((doc) => BlogPost.fromDocument(doc)).toList();
     } on FirebaseException catch (e) {
       throw Exception('An error occurred during the Firebase operation: ${e.message}');
@@ -39,7 +36,6 @@ class FirestoreService {
       if (snapshot.data() == null) {
         return null;
       }
-      // return BlogPost.fromJson(snapshot.data()!);
       return BlogPost.fromDocument(snapshot);
     } on FirebaseException catch (e) {
       throw Exception('An error occurred during the Firebase operation: ${e.message}');
@@ -55,6 +51,17 @@ class FirestoreService {
       throw Exception('An error occurred during the Firebase operation: ${e.message}');
     } catch (e) {
       throw Exception('Failed to create blog post: $e');
+    }
+  }
+
+  Future<void> updateBlogPost(BlogPost blogPost) async {
+    try {
+      var ref = _db.collection('blogposts').doc(blogPost.documentID);
+      await ref.update(blogPost.toJson());
+    } on FirebaseException catch (e) {
+      throw Exception('An error occurred during the Firebase operation: ${e.message}');
+    } catch (e) {
+      throw Exception('Failed to update blog post: $e');
     }
   }
 
@@ -77,9 +84,6 @@ class FirestoreService {
       if (snapshot.docs.isEmpty) {
         return [];
       }
-      // var data = snapshot.docs.map((s) => s.data());
-      // var categories = data.map((d) => Category.fromJson(d));
-      // return categories.toList();
       return snapshot.docs.map((doc) => Category.fromDocument(doc)).toList();
     } on FirebaseException catch (e) {
       throw Exception('An error occurred during the Firebase operation: ${e.message}');
@@ -95,7 +99,6 @@ class FirestoreService {
       if (snapshot.data() == null) {
         return null;
       }
-      // return Category.fromJson(snapshot.data()!);
       return Category.fromDocument(snapshot);
     } on FirebaseException catch (e) {
       throw Exception('An error occurred during the Firebase operation: ${e.message}');
@@ -176,7 +179,6 @@ class FirestoreService {
       }
       final userDoc = await _db.collection('profiles').doc(user.uid).get();
       if (userDoc.exists) {
-        // return Profile.fromJson(userDoc.data()!);
         return Profile.fromDocument(userDoc);
       }
       return null;
@@ -193,7 +195,6 @@ class FirestoreService {
     try {
       final userDoc = await _db.collection('profiles').doc(uid).get();
       if (userDoc.exists) {
-        // return Profile.fromJson(userDoc.data()!);
         return Profile.fromDocument(userDoc);
       }
       return null;
