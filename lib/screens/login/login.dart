@@ -1,6 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_blog/services/auth.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'login_button_signin.dart';
+import 'login_button_signup.dart';
+import 'login_button_google.dart';
+import 'login_button_guest.dart';
+import 'login_email_field.dart';
+import 'login_password_field.dart';
+import 'login_forgot_password_button.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -14,144 +20,79 @@ class _LoginScreenState extends State<LoginScreen> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
+  bool _obscurePassword = true; // Control password visibility
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Login'),
+        title: const Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            Text("Sign  "),
+            Text("In", style: TextStyle(fontSize: 22, color: Colors.blue)),
+          ],
+        ),
         backgroundColor: Colors.transparent,
       ),
-      body: Container(
-        padding: const EdgeInsets.all(30),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
-            const FlutterLogo(
-              size: 150,
-            ),
-            Form(
-              key: _formKey,
+      body: GestureDetector(
+        onTap: () => FocusScope.of(context).unfocus(),
+        child: Container(
+          height: double.infinity,
+          width: double.infinity,
+          child: SingleChildScrollView(
+            physics: const AlwaysScrollableScrollPhysics(),
+            padding: const EdgeInsets.symmetric(horizontal: 40.0, vertical: 100.0),
+            child: Form(
+              key: _formKey, // Wrap the form around the email and password fields
               child: Column(
-                children: [
-                  TextFormField(
-                    controller: _emailController,
-                    decoration: const InputDecoration(labelText: 'Email'),
-                    keyboardType: TextInputType.emailAddress,
-                    validator: (value) => value!.isEmpty ? 'Please enter an email' : null,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  const SizedBox(height: 30.0),
+                  LoginEmailField(emailController: _emailController),
+                  const SizedBox(height: 30.0),
+                  LoginPasswordField(
+                    passwordController: _passwordController,
+                    obscurePassword: _obscurePassword,
+                    togglePasswordVisibility: () {
+                      setState(() {
+                        _obscurePassword = !_obscurePassword;
+                      });
+                    },
                   ),
-                  const SizedBox(height: 10),
-                  TextFormField(
-                    controller: _passwordController,
-                    decoration: const InputDecoration(labelText: 'Password'),
-                    obscureText: true,
-                    validator: (value) => value!.isEmpty ? 'Please enter a password' : null,
+                  LoginForgotPasswordButton(authService: _authService), // Provide authService here
+                  const SizedBox(height: 10.0),
+                  LoginButtonSignIn(
+                    authService: _authService,
+                    emailController: _emailController,
+                    passwordController: _passwordController,
+                    formKey: _formKey,
                   ),
-                  const SizedBox(height: 20),
-                  LoginButton(
-                    text: "Login with Email",
-                    icon: Icons.email,
-                    color: Colors.teal,
-                    loginMethod: _loginWithEmail,
+                  LoginButtonSignUp(
+                    authService: _authService,
+                    emailController: _emailController,
+                    passwordController: _passwordController,
+                    formKey: _formKey,
                   ),
-                  LoginButton(
-                    text: "Register with Email",
-                    icon: Icons.person_add,
-                    color: Colors.green,
-                    loginMethod: _registerWithEmail,
+                  const SizedBox(height: 20.0),
+                  Column(
+                    children: const [
+                      SizedBox(height: 20.0),
+                      Text('Sign in with'),
+                    ],
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      LoginButtonGoogle(authService: _authService),
+                      LoginButtonGuest(authService: _authService),
+                    ],
                   ),
                 ],
               ),
             ),
-            LoginButton(
-              text: "Sign in with Google",
-              icon: FontAwesomeIcons.google,
-              color: Colors.blue,
-              loginMethod: _authService.googleLogin,
-            ),
-            LoginButton(
-              text: "Continue as Guest",
-              icon: FontAwesomeIcons.userNinja,
-              color: Colors.deepPurple,
-              loginMethod: _authService.anonymousLogin,
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Future<void> _loginWithEmail() async {
-    if (_formKey.currentState!.validate()) {
-      try {
-        await _authService.emailLogin(_emailController.text, _passwordController.text);
-        Navigator.pushReplacementNamed(context, '/');
-      } catch (e) {
-        _showErrorDialog(e.toString());
-      }
-    }
-  }
-
-  Future<void> _registerWithEmail() async {
-    if (_formKey.currentState!.validate()) {
-      try {
-        await _authService.registerWithEmail(_emailController.text, _passwordController.text);
-        Navigator.pushReplacementNamed(context, '/');
-      } catch (e) {
-        _showErrorDialog(e.toString());
-      }
-    }
-  }
-
-  void _showErrorDialog(String message) {
-    showDialog(
-      context: context,
-      builder: (context) => AlertDialog(
-        title: const Text('Error'),
-        content: Text(message),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.of(context).pop(),
-            child: const Text('OK'),
           ),
-        ],
-      ),
-    );
-  }
-}
-
-class LoginButton extends StatelessWidget {
-  final Color color;
-  final IconData icon;
-  final String text;
-  final Function loginMethod;
-
-  const LoginButton({super.key, required this.text, required this.icon, required this.color, required this.loginMethod});
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      margin: const EdgeInsets.only(bottom: 10),
-      child: ElevatedButton.icon(
-        icon: Icon(
-          icon,
-          color: Colors.white,
-          size: 20,
         ),
-        style: TextButton.styleFrom(
-          padding: const EdgeInsets.all(24),
-          backgroundColor: color,
-        ),
-        onPressed: () async {
-          try {
-            await loginMethod(); // Call the login method
-            Navigator.pushReplacementNamed(context, '/'); // Navigate to the home screen
-          } catch (e) {
-            // Handle login error (optional)
-          }
-        },
-        label: Text(text),
       ),
     );
   }
