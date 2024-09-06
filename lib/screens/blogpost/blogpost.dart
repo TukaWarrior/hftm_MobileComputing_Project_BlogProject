@@ -25,7 +25,6 @@ class BlogPostScreen extends StatelessWidget {
 
             return Scaffold(
               appBar: AppBar(
-                // title: const Text('Blogposts'),
                 title: const Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
