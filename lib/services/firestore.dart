@@ -21,9 +21,10 @@ class FirestoreService {
       if (snapshot.docs.isEmpty) {
         return [];
       }
-      var data = snapshot.docs.map((s) => s.data());
-      var blogposts = data.map((d) => BlogPost.fromJson(d));
-      return blogposts.toList();
+      // var data = snapshot.docs.map((s) => s.data());
+      // var blogposts = data.map((d) => BlogPost.fromJson(d));
+      // return blogposts.toList();
+      return snapshot.docs.map((doc) => BlogPost.fromDocument(doc)).toList();
     } on FirebaseException catch (e) {
       throw Exception('An error occurred during the Firebase operation: ${e.message}');
     } catch (e) {
@@ -38,7 +39,8 @@ class FirestoreService {
       if (snapshot.data() == null) {
         return null;
       }
-      return BlogPost.fromJson(snapshot.data()!);
+      // return BlogPost.fromJson(snapshot.data()!);
+      return BlogPost.fromDocument(snapshot);
     } on FirebaseException catch (e) {
       throw Exception('An error occurred during the Firebase operation: ${e.message}');
     } catch (e) {
@@ -56,6 +58,17 @@ class FirestoreService {
     }
   }
 
+  Future<void> deleteBlogPost(String blogpostId) async {
+    try {
+      var ref = _db.collection('blogposts').doc(blogpostId);
+      await ref.delete();
+    } on FirebaseException catch (e) {
+      throw Exception('An error occurred during the Firebase operation: ${e.message}');
+    } catch (e) {
+      throw Exception('Failed to delete blog post: $e');
+    }
+  }
+
   // ------------------ Categories ------------------
   Future<List<Category>> getAllCategories() async {
     try {
@@ -64,9 +77,10 @@ class FirestoreService {
       if (snapshot.docs.isEmpty) {
         return [];
       }
-      var data = snapshot.docs.map((s) => s.data());
-      var categories = data.map((d) => Category.fromJson(d));
-      return categories.toList();
+      // var data = snapshot.docs.map((s) => s.data());
+      // var categories = data.map((d) => Category.fromJson(d));
+      // return categories.toList();
+      return snapshot.docs.map((doc) => Category.fromDocument(doc)).toList();
     } on FirebaseException catch (e) {
       throw Exception('An error occurred during the Firebase operation: ${e.message}');
     } catch (e) {
@@ -81,7 +95,8 @@ class FirestoreService {
       if (snapshot.data() == null) {
         return null;
       }
-      return Category.fromJson(snapshot.data()!);
+      // return Category.fromJson(snapshot.data()!);
+      return Category.fromDocument(snapshot);
     } on FirebaseException catch (e) {
       throw Exception('An error occurred during the Firebase operation: ${e.message}');
     } catch (e) {
@@ -129,7 +144,7 @@ class FirestoreService {
     try {
       var user = AuthService().user;
       if (user != null) {
-        final profileRef = _db.collection('profiles').doc(user!.uid);
+        final profileRef = _db.collection('profiles').doc(user.uid);
         await profileRef.set(profile.toJson(), SetOptions(merge: true));
       }
     } on FirebaseException catch (e) {
@@ -147,9 +162,10 @@ class FirestoreService {
       if (user == null) {
         return null;
       }
-      final userDoc = await _db.collection('profiles').doc(user!.uid).get();
+      final userDoc = await _db.collection('profiles').doc(user.uid).get();
       if (userDoc.exists) {
-        return Profile.fromJson(userDoc.data()!);
+        // return Profile.fromJson(userDoc.data()!);
+        return Profile.fromDocument(userDoc);
       }
       return null;
     } on FirebaseException catch (e) {
@@ -165,7 +181,8 @@ class FirestoreService {
     try {
       final userDoc = await _db.collection('profiles').doc(uid).get();
       if (userDoc.exists) {
-        return Profile.fromJson(userDoc.data()!);
+        // return Profile.fromJson(userDoc.data()!);
+        return Profile.fromDocument(userDoc);
       }
       return null;
     } on FirebaseException catch (e) {
