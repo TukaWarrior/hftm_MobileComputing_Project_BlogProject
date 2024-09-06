@@ -61,7 +61,7 @@ class BlogPostItem extends StatelessWidget {
                         style: Theme.of(context).textTheme.labelLarge,
                       ),
                       Text(
-                        blogpost.publishedDate.toString().substring(0, 10),
+                        blogpost.publishedDate.toString().substring(0, 16),
                         style: Theme.of(context).textTheme.labelLarge,
                       )
                     ],
