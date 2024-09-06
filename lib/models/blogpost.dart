@@ -5,6 +5,7 @@ part 'blogpost.g.dart';
 
 @JsonSerializable()
 class BlogPost {
+  final String documentID;
   final String title;
   final String content;
   final String category;
@@ -18,6 +19,7 @@ class BlogPost {
   final String userUID;
 
   BlogPost({
+    this.documentID = '',
     this.title = '',
     this.content = '',
     this.category = '',
@@ -26,6 +28,21 @@ class BlogPost {
     this.audioURL = '',
     this.userUID = '',
   });
+
+  // Constructor to create BlogPost from Firestore DocumentSnapshot
+  factory BlogPost.fromDocument(DocumentSnapshot doc) {
+    final data = doc.data() as Map<String, dynamic>;
+    return BlogPost(
+      documentID: doc.id,
+      title: data['title'] ?? '',
+      content: data['content'] ?? '',
+      category: data['category'] ?? '',
+      publishedDate: data['publishedDate'] != null ? (data['publishedDate'] as Timestamp).toDate() : null,
+      imageURL: data['imageURL'] ?? '',
+      audioURL: data['audioURL'] ?? '',
+      userUID: data['userUID'] ?? '',
+    );
+  }
 
   // Custom fromJson for Timestamp -> DateTime
   static DateTime? _fromJsonDateTime(dynamic value) {
