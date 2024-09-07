@@ -21,11 +21,32 @@ class _SensorsScreenState extends State<SensorsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text("Sensor Data"), backgroundColor: Colors.transparent),
+      appBar: AppBar(
+          title: const Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              Text("Sensor "),
+              Text(
+                "Data",
+                style: TextStyle(
+                  fontSize: 22,
+                  color: Colors.blue,
+                ),
+              ),
+              const SizedBox(
+                width: 48,
+              )
+            ],
+          ),
+          backgroundColor: Colors.transparent),
       body: Padding(
-        padding: const EdgeInsets.all(16.0),
+        padding: const EdgeInsets.symmetric(horizontal: 16.0),
         child: ListView(
           children: [
+            const Divider(
+              thickness: 1.0,
+              color: Color(0xFF6a6977),
+            ),
             _buildSensorCard<AccelerometerEvent>(
               stream: _accelerometerSensor.getAccelerometerStream(),
               sensorName: 'Accelerometer',
