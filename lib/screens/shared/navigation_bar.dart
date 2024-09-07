@@ -45,11 +45,36 @@ class _NavBarState extends State<NavBar> {
         borderRadius: BorderRadius.circular(16.0),
         child: NavigationBar(
           destinations: const [
-            NavigationDestination(icon: Icon(Icons.home_outlined), label: 'Home'),
-            NavigationDestination(icon: Icon(Icons.category_outlined), label: 'BlogView'),
-            NavigationDestination(icon: Icon(Icons.settings_outlined), label: 'SensorData'),
-            NavigationDestination(icon: Icon(Icons.account_box_outlined), label: 'Profile'),
-            NavigationDestination(icon: Icon(Icons.account_box_outlined), label: 'BlogPost'),
+            NavigationDestination(
+              icon: Icon(
+                Icons.home_outlined,
+              ),
+              label: 'Home',
+            ),
+            NavigationDestination(
+              icon: Icon(
+                Icons.category_outlined,
+              ),
+              label: 'BlogView',
+            ),
+            NavigationDestination(
+              icon: Icon(
+                Icons.settings_outlined,
+              ),
+              label: 'SensorData',
+            ),
+            NavigationDestination(
+              icon: Icon(
+                Icons.account_box_outlined,
+              ),
+              label: 'Profile',
+            ),
+            NavigationDestination(
+              icon: Icon(
+                Icons.account_box_outlined,
+              ),
+              label: 'BlogPost',
+            ),
           ],
           selectedIndex: selectedIndex,
           onDestinationSelected: (int index) {
@@ -82,7 +107,8 @@ class _NavBarState extends State<NavBar> {
             }
           },
           indicatorColor: Colors.transparent,
-          backgroundColor: Colors.grey.withOpacity(0.25),
+          backgroundColor: Color.fromARGB(255, 22, 29, 29),
+          // backgroundColor: Colors.grey.withOpacity(0.25),
           animationDuration: const Duration(milliseconds: 500),
         ),
       ),
