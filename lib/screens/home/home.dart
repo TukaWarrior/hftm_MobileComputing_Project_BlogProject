@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_blog/screens/blogpost/blogpost.dart';
 import 'package:flutter_blog/screens/login/login.dart';
 import 'package:flutter_blog/services/auth.dart';
-import 'package:flutter_blog/services/profile_provider.dart';
+import 'package:flutter_blog/providers/profile_provider.dart';
 import 'package:provider/provider.dart';
 
 class HomeScreen extends StatelessWidget {

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_blog/providers/profile_provider.dart';
 import 'package:flutter_blog/screens/profile/profile_edit.dart';
 import 'package:flutter_blog/screens/shared/navigation_bar.dart';
 import 'package:flutter_blog/services/auth.dart';
-import 'package:flutter_blog/services/profile_provider.dart';
 import 'package:provider/provider.dart';
 
 class ProfileScreen extends StatelessWidget {

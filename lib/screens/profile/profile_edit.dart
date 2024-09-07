@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_blog/models/profile.dart' as AppUser;
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter_blog/services/profile_provider.dart';
+import 'package:flutter_blog/providers/profile_provider.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
 import 'package:flutter_blog/services/firestore.dart';
