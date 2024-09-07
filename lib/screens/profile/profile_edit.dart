@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_blog/models/profile.dart' as AppUser;
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_blog/services/profile_provider.dart';
 import 'package:image_picker/image_picker.dart';
@@ -36,15 +35,35 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Edit Profile"),
+        title: const Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            Text("Edit my "),
+            Text(
+              "Profile",
+              style: TextStyle(
+                fontSize: 22,
+                color: Colors.blue,
+              ),
+            ),
+            const SizedBox(
+              width: 48,
+            )
+          ],
+        ),
+        backgroundColor: Colors.transparent,
       ),
       body: Padding(
-        padding: const EdgeInsets.all(16.0),
+        padding: const EdgeInsets.symmetric(horizontal: 16.0),
         child: Form(
           key: _formKey,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              const Divider(
+                thickness: 1.0,
+                color: Color(0xFF6a6977),
+              ),
               TextFormField(
                 controller: _nameController,
                 decoration: const InputDecoration(labelText: 'Display Name'),
