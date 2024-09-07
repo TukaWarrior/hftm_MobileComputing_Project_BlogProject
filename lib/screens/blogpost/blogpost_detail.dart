@@ -41,21 +41,40 @@ class BlogPostDetailScreen extends StatelessWidget {
     final currentUserProfile = Provider.of<ProfileProvider>(context).profile;
     return Scaffold(
       appBar: AppBar(
+        title: const Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            Text("Blog "),
+            Text(
+              "Post",
+              style: TextStyle(fontSize: 22, color: Colors.blue),
+            ),
+          ],
+        ),
         backgroundColor: Colors.transparent,
         actions: [
           if (currentUserProfile != null && currentUserProfile.documentID == blogpost.userUID) ...[
             IconButton(
-              icon: Icon(Icons.edit),
+              icon: const Icon(Icons.edit),
               onPressed: () => _showEditDialog(context), // Show edit dialog
             ),
             IconButton(
-              icon: Icon(Icons.delete),
+              icon: const Icon(Icons.delete),
               onPressed: () => BlogPostDelete.showDeleteDialog(context, blogpost), // Use the extracted function
             ),
+          ] else ...[
+            const SizedBox(width: 48),
           ],
         ],
       ),
       body: ListView(children: [
+        const Padding(
+          padding: EdgeInsets.symmetric(horizontal: 16.0),
+          child: Divider(
+            thickness: 1.0,
+            color: Color(0xFF6a6977),
+          ),
+        ),
         Hero(
           tag: blogpost.imageURL,
           child: Card(

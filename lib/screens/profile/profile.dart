@@ -13,8 +13,29 @@ class ProfileScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Profile"),
+        title: const Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            const SizedBox(
+              width: 48,
+            ),
+            Text('My '),
+            Text(
+              'Profile',
+              style: TextStyle(
+                fontSize: 22,
+                color: Colors.blue,
+              ),
+            ),
+          ],
+        ),
         backgroundColor: Colors.transparent,
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.edit),
+            onPressed: () => _showEditDialog(context), // Show edit dialog
+          ),
+        ],
       ),
       bottomNavigationBar: const NavBar(),
       body: Consumer<ProfileProvider>(
@@ -29,32 +50,84 @@ class ProfileScreen extends StatelessWidget {
 
           // If the profile is loaded successfully, show the profile view
           return Padding(
-            padding: const EdgeInsets.all(16.0),
+            padding: const EdgeInsets.symmetric(horizontal: 16.0),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                const Divider(
+                  thickness: 1.0,
+                  color: Color(0xFF6a6977),
+                ),
                 Center(
                   child: userProfile.avatarURL.isNotEmpty
                       ? ClipOval(
                           // Clip the image to make it circular
                           child: Image.network(
                             userProfile.avatarURL,
-                            height: 200, // Adjust height and width for a circular avatar
-                            width: 200,
+                            height: 250, // Adjust height and width for a circular avatar
+                            width: 250,
                             fit: BoxFit.cover,
                           ),
                         )
                       : const CircleAvatar(
-                          radius: 200,
+                          radius: 125,
                           child: Icon(Icons.person, size: 50),
                         ),
                 ),
+                const Divider(
+                  thickness: 1.0,
+                  color: Color(0xFF6a6977),
+                ),
+                const SizedBox(height: 10),
+                Align(
+                  alignment: Alignment.center,
+                  child: Text(
+                    userProfile.displayName,
+                    style: Theme.of(context).textTheme.displaySmall,
+                  ),
+                ),
+
+                const SizedBox(
+                  height: 16,
+                ),
+
+                Align(
+                  alignment: Alignment.center,
+                  child: Text(
+                    userProfile.description,
+                    style: Theme.of(context).textTheme.bodyLarge,
+                  ),
+                ),
+                const SizedBox(
+                  height: 20,
+                ),
+                // Display Profile Created Date
+                Text(
+                  'Profile created:',
+                  style: Theme.of(context).textTheme.labelLarge,
+                ),
+                Text(
+                  userProfile.createdDate.toString().substring(0, 10),
+                  style: Theme.of(context).textTheme.bodyLarge,
+                ),
+
                 const SizedBox(height: 20),
-                _buildProfileField('Name', userProfile.displayName, context),
-                _buildProfileField('Email', userProfile.email, context),
-                _buildProfileField('Description', userProfile.description, context),
-                const SizedBox(height: 20),
-                _buildEditButton(context, userProfile, profileProvider), // Pass profileProvider to refresh profile after editing
+
+                // Display Email
+                Text(
+                  'Email:',
+                  style: Theme.of(context).textTheme.labelLarge,
+                ),
+                Text(
+                  userProfile.email,
+                  style: Theme.of(context).textTheme.bodyLarge,
+                ),
+
+                const Divider(
+                  thickness: 1.0,
+                  color: Color(0xFF6a6977),
+                ),
+
                 _buildSignOutButton(context),
               ],
             ),
@@ -64,34 +137,20 @@ class ProfileScreen extends StatelessWidget {
     );
   }
 
-  // Method to build individual profile fields
-  Widget _buildProfileField(String label, String value, BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(label, style: Theme.of(context).textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.bold)),
-        const SizedBox(height: 5),
-        Text(value, style: Theme.of(context).textTheme.bodyLarge),
-        const SizedBox(height: 15),
-      ],
-    );
-  }
+  // Method to show the Edit Profile dialog
+  void _showEditDialog(BuildContext context) async {
+    final profileProvider = Provider.of<ProfileProvider>(context, listen: false);
+    final userProfile = profileProvider.profile;
 
-  // Method to build the Edit Profile button
-  Widget _buildEditButton(BuildContext context, Profile user, ProfileProvider profileProvider) {
-    return ElevatedButton.icon(
-      icon: const Icon(Icons.edit),
-      label: const Text('Edit Profile'),
-      onPressed: () async {
-        await Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => EditProfileScreen(user: user)),
-        );
+    if (userProfile != null) {
+      await Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => EditProfileScreen(user: userProfile)),
+      );
 
-        // Refresh the profile after returning from the EditProfileScreen
-        profileProvider.fetchUserProfile();
-      },
-    );
+      // Refresh the profile after returning from the EditProfileScreen
+      profileProvider.fetchUserProfile();
+    }
   }
 
   Widget _buildSignOutButton(BuildContext context) {

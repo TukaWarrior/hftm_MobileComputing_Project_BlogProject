@@ -34,6 +34,7 @@ class Profile {
       description: data['description'] ?? '',
       email: data['email'] ?? '',
       avatarURL: data['avatarURL'] ?? '',
+      createdDate: data['createdDate'] != null ? (data['createdDate'] as Timestamp).toDate() : null,
     );
   }
 
