@@ -109,7 +109,7 @@ class _BlogPostCreateScreenState extends State<BlogPostCreateScreen> {
               child: Container(
                 height: 240,
                 decoration: BoxDecoration(
-                  color: Colors.white,
+                  // color: Colors.white,
                   borderRadius: BorderRadius.circular(6),
                 ),
                 child: _image != null
@@ -120,9 +120,9 @@ class _BlogPostCreateScreenState extends State<BlogPostCreateScreen> {
                           fit: BoxFit.cover,
                         ),
                       )
-                    : Column(
+                    : const Column(
                         mainAxisAlignment: MainAxisAlignment.center,
-                        children: const [
+                        children: [
                           Icon(
                             Icons.add_a_photo,
                             color: Colors.black45,
@@ -141,7 +141,7 @@ class _BlogPostCreateScreenState extends State<BlogPostCreateScreen> {
                   child: ElevatedButton(
                     onPressed: _getImageFromCamera,
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.grey[400], // Grey color
+                      // backgroundColor: Colors.grey[400], // Grey color
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(8), // Rounded corners
                       ),
@@ -154,7 +154,7 @@ class _BlogPostCreateScreenState extends State<BlogPostCreateScreen> {
                   child: ElevatedButton(
                     onPressed: _getImageFromGallery,
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.grey[400], // Grey color
+                      // backgroundColor: Colors.grey[400], // Grey color
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(8), // Rounded corners
                       ),
