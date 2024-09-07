@@ -10,24 +10,24 @@ final ThemeData lightTheme = ThemeData(
   appBarTheme: AppBarTheme(
     backgroundColor: const ColorScheme.light().surfaceContainerHighest,
   ),
-  // textTheme: const TextTheme(
-  //   titleLarge: TextStyle(
-  //     fontSize: 30,
-  //   ),
-  // ),
-  // navigationBarTheme: NavigationBarThemeData(
-  //   indicatorColor: Colors.transparent, // Transparent indicator for dark theme
-  //   backgroundColor: const Color(0xFF32353F), // Darker background for dark theme
-  //   labelTextStyle: WidgetStateProperty.all(
-  //     const TextStyle(color: Colors.white), // Label color for dark theme
-  //   ),
-  //   iconTheme: WidgetStateProperty.resolveWith<IconThemeData>((Set<WidgetState> states) {
-  //     if (states.contains(WidgetState.selected)) {
-  //       return const IconThemeData(color: Colors.cyanAccent); // Icon color when selected
-  //     }
-  //     return const IconThemeData(color: Colors.white); // Icon color when not selected
-  //   }),
-  // ),
+  textTheme: const TextTheme(
+    titleLarge: TextStyle(
+      fontSize: 30,
+    ),
+  ),
+  navigationBarTheme: NavigationBarThemeData(
+    indicatorColor: Colors.transparent, // Transparent indicator for dark theme
+    backgroundColor: const Color(0xFF32353F), // Darker background for dark theme
+    labelTextStyle: WidgetStateProperty.all(
+      const TextStyle(color: Colors.white), // Label color for dark theme
+    ),
+    iconTheme: WidgetStateProperty.resolveWith<IconThemeData>((Set<WidgetState> states) {
+      if (states.contains(WidgetState.selected)) {
+        return const IconThemeData(color: Colors.cyanAccent); // Icon color when selected
+      }
+      return const IconThemeData(color: Colors.white); // Icon color when not selected
+    }),
+  ),
 );
 
 final ThemeData darkTheme = ThemeData(

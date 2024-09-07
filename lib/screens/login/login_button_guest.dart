@@ -6,9 +6,9 @@ class LoginButtonGuest extends StatelessWidget {
   final AuthService authService;
 
   const LoginButtonGuest({
-    Key? key,
+    super.key,
     required this.authService,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

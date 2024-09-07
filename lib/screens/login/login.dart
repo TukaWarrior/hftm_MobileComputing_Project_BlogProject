@@ -37,7 +37,7 @@ class _LoginScreenState extends State<LoginScreen> {
       ),
       body: GestureDetector(
         onTap: () => FocusScope.of(context).unfocus(),
-        child: Container(
+        child: SizedBox(
           height: double.infinity,
           width: double.infinity,
           child: SingleChildScrollView(
@@ -75,8 +75,8 @@ class _LoginScreenState extends State<LoginScreen> {
                     formKey: _formKey,
                   ),
                   const SizedBox(height: 20.0),
-                  Column(
-                    children: const [
+                  const Column(
+                    children: [
                       SizedBox(height: 20.0),
                       Text('Sign in with'),
                     ],

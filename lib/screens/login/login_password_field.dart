@@ -6,11 +6,11 @@ class LoginPasswordField extends StatelessWidget {
   final VoidCallback togglePasswordVisibility;
 
   const LoginPasswordField({
-    Key? key,
+    super.key,
     required this.passwordController,
     required this.obscurePassword,
     required this.togglePasswordVisibility,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -18,7 +18,7 @@ class LoginPasswordField extends StatelessWidget {
       controller: passwordController,
       obscureText: obscurePassword,
       decoration: InputDecoration(
-        border: OutlineInputBorder(),
+        border: const OutlineInputBorder(),
         prefixIcon: const Icon(Icons.lock),
         suffixIcon: IconButton(
           icon: Icon(obscurePassword ? Icons.visibility : Icons.visibility_off),
