@@ -86,7 +86,7 @@ class _BlogPostCreateScreenState extends State<BlogPostCreateScreen> {
       );
       // Save the blog post to Firestore
       await firestoreService.addBlogPost(newPost);
-      // Navigator.of(context).pop(); // Optionally pop back to the previous screen
+      Navigator.pushReplacementNamed(context, '/blogpost');
     }
   }
 
@@ -94,116 +94,124 @@ class _BlogPostCreateScreenState extends State<BlogPostCreateScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Create Blog Post"),
+        title: const Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            Text("Create a  "),
+            Text(
+              "Blog Post",
+              style: TextStyle(fontSize: 22, color: Colors.blue),
+            ),
+          ],
+        ),
         backgroundColor: Colors.transparent,
       ),
       bottomNavigationBar: const NavBar(),
-      body: Form(
-        key: _formKey,
-        child: ListView(
-          padding: const EdgeInsets.all(16.0), // Consistent padding for the ListView
-          children: <Widget>[
-            // Image preview card
-            GestureDetector(
-              onTap: _getImageFromGallery, // Tap to pick image
-              child: Container(
-                height: 240,
-                decoration: BoxDecoration(
-                  // color: Colors.white,
-                  borderRadius: BorderRadius.circular(6),
-                ),
-                child: _image != null
-                    ? ClipRRect(
-                        borderRadius: BorderRadius.circular(16),
-                        child: Image.file(
-                          _image!,
-                          fit: BoxFit.cover,
-                        ),
-                      )
-                    : const Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Icon(
-                            Icons.add_a_photo,
-                            color: Colors.black45,
-                          ),
-                          SizedBox(height: 8),
-                          Text('Add an image'),
-                        ],
-                      ),
+      body: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 16),
+        child: Form(
+          key: _formKey,
+          child: ListView(
+            children: <Widget>[
+              const Divider(
+                thickness: 1.0,
+                color: Color(0xFF6a6977),
               ),
-            ),
-            const SizedBox(height: 10),
-            // Buttons for image selection
-            Row(
-              children: [
-                Expanded(
-                  child: ElevatedButton(
-                    onPressed: _getImageFromCamera,
-                    style: ElevatedButton.styleFrom(
-                      // backgroundColor: Colors.grey[400], // Grey color
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(8), // Rounded corners
-                      ),
-                    ),
-                    child: const Text('Camera'),
+              GestureDetector(
+                onTap: _getImageFromGallery,
+                child: Container(
+                  height: 240,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(6),
                   ),
+                  child: _image != null
+                      ? ClipRRect(
+                          borderRadius: BorderRadius.circular(16),
+                          child: Image.file(
+                            _image!,
+                            fit: BoxFit.cover,
+                          ),
+                        )
+                      : const Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Icon(
+                              Icons.add_a_photo,
+                              color: Colors.black45,
+                            ),
+                            SizedBox(height: 8),
+                            Text('Add an image'),
+                          ],
+                        ),
                 ),
-                const SizedBox(width: 10),
-                Expanded(
-                  child: ElevatedButton(
-                    onPressed: _getImageFromGallery,
-                    style: ElevatedButton.styleFrom(
-                      // backgroundColor: Colors.grey[400], // Grey color
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(8), // Rounded corners
+              ),
+              const SizedBox(height: 10),
+              Row(
+                children: [
+                  Expanded(
+                    child: ElevatedButton(
+                      onPressed: _getImageFromCamera,
+                      style: ElevatedButton.styleFrom(
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(8),
+                        ),
                       ),
+                      child: const Text('Camera'),
                     ),
-                    child: const Text('Gallery'),
                   ),
-                ),
-              ],
-            ),
-            const SizedBox(height: 20),
-            // Form fields for title, content, and category selection
-            TextFormField(
-              decoration: const InputDecoration(labelText: 'Title'),
-              onSaved: (value) => _title = value ?? '',
-              validator: (value) => value!.isEmpty ? 'Title cannot be empty' : null,
-            ),
-            const SizedBox(height: 10),
-            TextFormField(
-              decoration: const InputDecoration(labelText: 'Content'),
-              onSaved: (value) => _content = value ?? '',
-              validator: (value) => value!.isEmpty ? 'Content cannot be empty' : null,
-            ),
-            const SizedBox(height: 10),
-            _categories.isEmpty
-                ? const CircularProgressIndicator() // Show loading indicator if categories are being fetched
-                : DropdownButtonFormField<String>(
-                    decoration: const InputDecoration(labelText: 'Category'),
-                    value: _selectedCategory,
-                    items: _categories.map((Category category) {
-                      // Combine emoji and name in the dropdown menu items
-                      String displayValue = '${category.emoji} ${category.name}';
-                      return DropdownMenuItem<String>(
-                        value: displayValue, // Use combined string as value
-                        child: Text(displayValue),
-                      );
-                    }).toList(),
-                    onChanged: (value) {
-                      setState(() {
-                        _selectedCategory = value; // Store combined emoji + name string
-                      });
-                    },
-                    validator: (value) => value == null || value.isEmpty ? 'Please select a category' : null,
+                  const SizedBox(width: 10),
+                  Expanded(
+                    child: ElevatedButton(
+                      onPressed: _getImageFromGallery,
+                      style: ElevatedButton.styleFrom(
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                      ),
+                      child: const Text('Gallery'),
+                    ),
                   ),
-            const SizedBox(height: 20),
-            ElevatedButton(
-              onPressed: _saveBlogPost,
-              child: const Text('Submit Blog Post'),
-            ),
-          ],
+                ],
+              ),
+              const SizedBox(height: 20),
+              TextFormField(
+                decoration: const InputDecoration(labelText: 'Title'),
+                onSaved: (value) => _title = value ?? '',
+                validator: (value) => value!.isEmpty ? 'Title cannot be empty' : null,
+              ),
+              const SizedBox(height: 10),
+              TextFormField(
+                decoration: const InputDecoration(labelText: 'Content'),
+                onSaved: (value) => _content = value ?? '',
+                validator: (value) => value!.isEmpty ? 'Content cannot be empty' : null,
+              ),
+              const SizedBox(height: 10),
+              _categories.isEmpty
+                  ? const CircularProgressIndicator()
+                  : DropdownButtonFormField<String>(
+                      decoration: const InputDecoration(labelText: 'Category'),
+                      value: _selectedCategory,
+                      items: _categories.map((Category category) {
+                        String displayValue = '${category.emoji} ${category.name}';
+                        return DropdownMenuItem<String>(
+                          value: displayValue,
+                          child: Text(displayValue),
+                        );
+                      }).toList(),
+                      onChanged: (value) {
+                        setState(() {
+                          _selectedCategory = value;
+                        });
+                      },
+                      validator: (value) => value == null || value.isEmpty ? 'Please select a category' : null,
+                    ),
+              const SizedBox(height: 20),
+              ElevatedButton(
+                onPressed: _saveBlogPost,
+                child: const Text('Submit Blog Post'),
+              ),
+            ],
+          ),
         ),
       ),
     );

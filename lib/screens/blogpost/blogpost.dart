@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_blog/models/blogpost.dart';
 import 'package:flutter_blog/screens/blogpost/blogpost_item.dart';
-import 'package:flutter_blog/screens/shared/error.dart';
 import 'package:flutter_blog/screens/shared/loading.dart';
 import 'package:flutter_blog/screens/shared/navigation_bar.dart';
 import 'package:flutter_blog/services/firestore.dart';

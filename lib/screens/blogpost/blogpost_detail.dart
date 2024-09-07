@@ -128,8 +128,10 @@ class BlogPostDetailScreen extends StatelessWidget {
               FutureBuilder<Widget>(
                 future: FirestoreService().getProfileByUID(blogpost.userUID).then((userProfile) {
                   String displayName = 'Failed to fetch profile data';
+                  String description = '';
                   if (userProfile != null) {
                     displayName = userProfile.displayName;
+                    description = userProfile.description;
                   }
                   return Row(
                     children: [
@@ -137,7 +139,7 @@ class BlogPostDetailScreen extends StatelessWidget {
                         radius: 32.0,
                         backgroundImage: NetworkImage(userProfile!.avatarURL),
                       ),
-                      const SizedBox(width: 8),
+                      const SizedBox(width: 16),
                       Text(
                         displayName,
                         style: Theme.of(context).textTheme.titleMedium,

@@ -65,7 +65,7 @@ class _BlogPostEditDialogState extends State<BlogPostEditDialog> {
           // Upload new image and get the URL
           imageUrl = await firestoreService.uploadImage(
             _image!,
-            'blogpost_images/${widget.blogpost.documentID}.png', // Corrected path
+            'blogpost_images',
           );
         }
 
@@ -117,21 +117,24 @@ class _BlogPostEditDialogState extends State<BlogPostEditDialog> {
                 onSaved: (value) => _content = value ?? '',
                 validator: (value) => value!.isEmpty ? 'Content cannot be empty' : null,
               ),
-              const SizedBox(height: 10),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
+              const SizedBox(height: 20),
+
+              // Buttons for image selection
+              Column(
                 children: [
                   ElevatedButton(
                     onPressed: _getImageFromGallery,
                     child: const Text('Change Image from Gallery'),
                   ),
+                  const SizedBox(height: 10),
                   ElevatedButton(
-                    onPressed: _getImageFromCamera, // Button for picking image from the camera
+                    onPressed: _getImageFromCamera,
                     child: const Text('Change Image from Camera'),
                   ),
                 ],
               ),
               const SizedBox(height: 20),
+
               ElevatedButton(
                 onPressed: _saveChanges,
                 child: const Text('Save Changes'),

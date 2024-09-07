@@ -46,7 +46,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                 color: Colors.blue,
               ),
             ),
-            const SizedBox(
+            SizedBox(
               width: 48,
             )
           ],

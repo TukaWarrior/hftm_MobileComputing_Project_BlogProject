@@ -33,7 +33,7 @@ class _SensorsScreenState extends State<SensorsScreen> {
                   color: Colors.blue,
                 ),
               ),
-              const SizedBox(
+              SizedBox(
                 width: 48,
               )
             ],

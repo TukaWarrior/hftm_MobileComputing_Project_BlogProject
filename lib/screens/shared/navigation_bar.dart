@@ -28,9 +28,6 @@ class _NavBarState extends State<NavBar> {
       case '/profile':
         selectedIndex = 3;
         break;
-      case '/blogpost':
-        selectedIndex = 4;
-        break;
       default:
         selectedIndex = 0; // Default to home if route is not found
     }
@@ -53,27 +50,21 @@ class _NavBarState extends State<NavBar> {
             ),
             NavigationDestination(
               icon: Icon(
-                Icons.category_outlined,
+                Icons.add_box_outlined,
               ),
-              label: 'BlogView',
+              label: 'Create Blog',
             ),
             NavigationDestination(
               icon: Icon(
                 Icons.settings_outlined,
               ),
-              label: 'SensorData',
+              label: 'Sensors',
             ),
             NavigationDestination(
               icon: Icon(
                 Icons.account_box_outlined,
               ),
               label: 'Profile',
-            ),
-            NavigationDestination(
-              icon: Icon(
-                Icons.account_box_outlined,
-              ),
-              label: 'BlogPost',
             ),
           ],
           selectedIndex: selectedIndex,
@@ -87,7 +78,7 @@ class _NavBarState extends State<NavBar> {
               // Check if the current route is different from the selected one
               switch (index) {
                 case 0:
-                  Navigator.pushNamedAndRemoveUntil(context, '/', (route) => false);
+                  Navigator.pushNamedAndRemoveUntil(context, '/blogpost', (route) => false);
                   break;
                 case 1:
                   Navigator.pushNamedAndRemoveUntil(context, '/blognew', (route) => false); // Remove all previous routes
@@ -98,16 +89,13 @@ class _NavBarState extends State<NavBar> {
                 case 3:
                   Navigator.pushNamedAndRemoveUntil(context, '/profile', (route) => false);
                   break;
-                case 4:
-                  Navigator.pushNamedAndRemoveUntil(context, '/blogpost', (route) => false);
-                  break;
                 default:
                   Navigator.pushNamedAndRemoveUntil(context, '/', (route) => false);
               }
             }
           },
           indicatorColor: Colors.transparent,
-          backgroundColor: Color.fromARGB(255, 22, 29, 29),
+          backgroundColor: const Color.fromARGB(255, 22, 29, 29),
           // backgroundColor: Colors.grey.withOpacity(0.25),
           animationDuration: const Duration(milliseconds: 500),
         ),

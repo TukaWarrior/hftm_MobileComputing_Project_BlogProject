@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_blog/models/profile.dart';
 import 'package:flutter_blog/screens/profile/profile_edit.dart';
 import 'package:flutter_blog/screens/shared/navigation_bar.dart';
 import 'package:flutter_blog/services/auth.dart';
 import 'package:flutter_blog/services/profile_provider.dart';
-import 'package:provider/provider.dart'; // Import provider
+import 'package:provider/provider.dart';
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
@@ -16,7 +15,7 @@ class ProfileScreen extends StatelessWidget {
         title: const Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const SizedBox(
+            SizedBox(
               width: 48,
             ),
             Text('My '),
