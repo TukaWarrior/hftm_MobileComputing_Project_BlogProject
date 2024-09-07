@@ -32,12 +32,9 @@ class FirestoreService {
   Future<List<BlogPost>> getBlogPostsByDateTime({DateTime? lastDate, int limit = 5}) async {
     try {
       var ref = _db.collection('blogposts').orderBy('publishedDate', descending: true).limit(limit);
-
-      // If `lastDate` is provided, start fetching from there
       if (lastDate != null) {
         ref = ref.startAfter([lastDate]);
       }
-
       var snapshot = await ref.get();
       if (snapshot.docs.isEmpty) {
         return [];
@@ -47,6 +44,24 @@ class FirestoreService {
       throw Exception('An error occurred during the Firebase operation: ${e.message}');
     } catch (e) {
       throw Exception('Failed to fetch blog posts: $e');
+    }
+  }
+
+  Future<List<BlogPost>> getUserBlogPosts(String userUID, {DateTime? lastDate, int limit = 5}) async {
+    try {
+      var ref = _db.collection('blogposts').where('userUID', isEqualTo: userUID).orderBy('publishedDate', descending: true).limit(limit);
+      if (lastDate != null) {
+        ref = ref.startAfter([lastDate]);
+      }
+      var snapshot = await ref.get();
+      if (snapshot.docs.isEmpty) {
+        return [];
+      }
+      return snapshot.docs.map((doc) => BlogPost.fromDocument(doc)).toList();
+    } on FirebaseException catch (e) {
+      throw Exception('An error occurred during the Firebase operation: ${e.message}');
+    } catch (e) {
+      throw Exception('Failed to fetch user blog posts: $e');
     }
   }
 
